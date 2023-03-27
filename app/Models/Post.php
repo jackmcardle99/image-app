@@ -10,6 +10,7 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable =[
+        'user_id',
         'title',
         'summary',
         'image_path',
@@ -20,4 +21,6 @@ class Post extends Model
         'created_at',
         'updated_at'
     ];
+
+
 }

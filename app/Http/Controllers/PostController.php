@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -11,7 +13,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        //show all posts
+        $userID = Auth::id();
+        $posts = Post::where('user_id', $userID)
+        ->where('is_published',true)
+        ->latest('updated_at')
+        ->paginate(3);
+        $posts->each(function($post){
+        });
+
+        return view('posts.index')->with('posts',$posts);
     }
 
     /**

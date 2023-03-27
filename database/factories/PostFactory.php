@@ -18,10 +18,11 @@ class PostFactory extends Factory
     {
         return [
             //
+            'user_id' => $this->faker->numberBetween(1,1),
             'title' => $this->faker->unique()->sentence,
             'summary' => $this->faker->text(),
             'image_path' => $this->faker->imageUrl(640,480),
-            'is_published' => $this->faker->boolean(1),
+            'is_published' => $this->faker->boolean(50),
             'value' => $this->faker->numberBetween(1,100),
             'likes' => $this->faker->numberBetween(1,10),
             'favourites' =>$this->faker->numberBetween(1,5),
