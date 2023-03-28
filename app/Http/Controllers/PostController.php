@@ -18,10 +18,10 @@ class PostController extends Controller
         $posts = Post::where('user_id', $userID)
         ->where('is_published',true)
         ->latest('updated_at')
-        ->paginate(3);
-        $posts->each(function($post){
-        });
-
+        ->paginate(5);
+//        $posts->each(function($post){
+//
+//        });
         return view('posts.index')->with('posts',$posts);
     }
 
@@ -44,9 +44,18 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        // showing each post
+//        $post = Post::where('id',$post)
+//        ->where('user_id',Auth::id())
+//        ->firstOrFail();
+
+        if($post->user_id != Auth::id()){
+            return abort(403);
+        }
+
+        return view('posts.show')->with('post',$post);
     }
 
     /**

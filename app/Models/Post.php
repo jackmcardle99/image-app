@@ -17,10 +17,16 @@ class Post extends Model
         'is_published',
         'value',
         'likes',
-        'favourites',
+        'comments',
+        'views',
         'created_at',
         'updated_at'
     ];
 
+    //this code changes the url
 
+//    public function getRouteKeyName(): string
+//    {
+//        return 'title';
+//    }
 }

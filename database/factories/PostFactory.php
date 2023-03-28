@@ -17,7 +17,6 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            //
             'user_id' => $this->faker->numberBetween(1,1),
             'title' => $this->faker->unique()->sentence,
             'summary' => $this->faker->text(),
@@ -25,7 +24,8 @@ class PostFactory extends Factory
             'is_published' => $this->faker->boolean(50),
             'value' => $this->faker->numberBetween(1,100),
             'likes' => $this->faker->numberBetween(1,10),
-            'favourites' =>$this->faker->numberBetween(1,5),
+            'comments' =>$this->faker->numberBetween(1,5),
+            'views' =>$this->faker->numberBetween(1,1000),
         ];
     }
 }
