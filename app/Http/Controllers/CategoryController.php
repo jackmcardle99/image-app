@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //show all posts
-        $userID = Auth::id();
-        $posts = Post::where('user_id', $userID)
-        ->where('is_published',true)
-        ->latest('updated_at')
-        ->paginate(5);
-
-        return view('posts.index')->with('posts',$posts);
+        $categories = Category::orderBy('topic','asc')->with('posts')->get();
+//        $categories = Category::orderBy('topic','asc');
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -42,21 +37,9 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(string $id)
     {
-        // showing each post
-//        $post = Post::where('id',$post)
-//        ->where('user_id',Auth::id())
-//        ->firstOrFail();
-
-//        if($post->user_id != Auth::id()){
-//            return abort(403);
-//        }
-        if(!$post->user->is(Auth::user())){  //if the post doesn't belong to currently authenticated user, then forbidden
-            return abort(403);
-        }
-
-        return view('posts.show')->with('post',$post);
+        //
     }
 
     /**

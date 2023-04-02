@@ -7,15 +7,21 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex">
-                <p class="opacity-70 sm:px-6">
+                <p class="opacity-70 sm:px-6 py-2">
                     <strong>Author: </strong> {{ Auth::user()->name }}
                 </p>
-                <p class="opacity-70 sm:px-6">
+                <p class="opacity-70 sm:px-6 py-2">
                     <strong>Created: </strong> {{$post->created_at->diffForHumans()}}
                 </p>
-                <p class="opacity-70 sm:px-6">
+                <p class="opacity-70 sm:px-6 py-2">
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
+                <button class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-teal-400 text-white" type="submit">
+                    Edit Post
+                </button>
+                <button class="h-10 px-6 font-semibold rounded-md bg-red-400 text-white " type="submit">
+                    Delete Post
+                </button>
             </div>
             <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
                 <h2 class="font-bold text-4xl">

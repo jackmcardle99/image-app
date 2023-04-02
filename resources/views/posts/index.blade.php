@@ -11,9 +11,10 @@
                 +
                 Create post
             </button>
+            <a href="{{route('categories.index')}}">
             <button class="h-10 px-6 font-semibold rounded-md border bg-teal-600 border-slate-200 text-white" type="button">
                 Categories
-            </button>
+            </button></a>
             <button class="h-10 px-6 font-semibold rounded-md border bg-teal-600 border-slate-200 text-white" type="button">
                 Search
             </button>
@@ -28,6 +29,14 @@
                 <h2 class="font-bold text-2xl">
                     {{ $post->title }}
                 </h2>
+                <p class="pt-4 italic text-gray-500">
+                    Categories:
+                    @forelse($post->categories as $category)
+                        {{$category->topic}}@if (!$loop->last),@endif
+                    @empty
+                        <span>No categories defined for this note.</span>
+                    @endforelse
+                </p>
                 <br>
                 <p>
                     <span> <img src="{{$post->image_path}}" width="160" > </span><br>

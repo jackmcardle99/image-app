@@ -31,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $hidden = [
         'password',
+        'is_admin',
         'remember_token',
     ];
 
@@ -42,4 +43,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function posts(){  // for defining relationship in db, one to many
+        return $this->hasMany(Post::class);
+    }
 }
