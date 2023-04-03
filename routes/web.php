@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriorityViewController;
+use App\Http\Controllers\TrashedNoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/posts', PostController::class);
     Route::resource('/categories', CategoryController::class);
+});
+
+Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function (){
+    Route::get('/', [TrashedNoteController::class, 'index'])->name('index');
+    Route::get('/{post}', [TrashedNoteController::class, 'show'])->name('show')->withTrashed();
+    Route::put('/{post}', [TrashedNoteController::class, 'update'])->name('update')->withTrashed();
+    Route::delete('/{post}', [TrashedNoteController::class, 'destroy'])->name('destroy')->withTrashed();
 });
 
 require __DIR__.'/auth.php';

@@ -17,15 +17,16 @@
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
                 <button class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-teal-400 text-white" type="submit">
-                    Edit post
+                    Restore Post
                 </button>
-                <form action="{{route('posts.destroy',$post)}}" method="post">
+                <form action="{{route('trashed.destroy',$post)}}" method="post">
                     @method('delete')
                     @csrf
-                    <button class="h-10 px-6 font-semibold rounded-md bg-red-400 text-white " type="submit" onclick="return confirm('Are you sure you would like to delete this post?')">
-                        Delete post
+                    <button class="h-10 px-6 font-semibold rounded-md bg-red-400 text-white " type="submit" onclick="return confirm('Are you sure you would like to permanently delete this post? ' +
+                     'You will not be able to recover it.')">
+                        Permanently Delete
                     </button>
-{{--                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you would like to delete this post?')">Delete</button>--}}
+                    {{--                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you would like to delete this post?')">Delete</button>--}}
                 </form>
 
             </div>

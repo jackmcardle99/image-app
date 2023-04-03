@@ -20,6 +20,9 @@
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         {{ __('My Posts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('trashed.index')" :active="request()->routeIs('trashed.index')">
+                        {{ __('Trashed') }}
+                    </x-nav-link>
                 </div>
 {{--                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">--}}
 {{--                    <x-nav-link :href="route('trash')" :active="request()->routeIs('trash')">--}}
