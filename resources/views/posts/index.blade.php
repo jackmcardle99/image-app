@@ -7,10 +7,14 @@
 
     <div class="py-12">
         <div class="dark:bg-gray-900 flex-auto flex space-x-4 justify-center">
+            @if(request()->routeIs('posts.index'))
+                <a href="{{route('posts.create')}}" class="btn-link btn-lg mb-2">
             <button class="h-10 px-6 font-semibold rounded-md bg-teal-400 text-white" type="submit">
                 +
                 Create post
             </button>
+                </a>
+            @endif
             <a href="{{route('categories.index')}}">
             <button class="h-10 px-6 font-semibold rounded-md border bg-teal-600 border-slate-200 text-white" type="button">
                 Categories

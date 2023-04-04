@@ -9,7 +9,7 @@ class PriorityViewController extends Controller
 {
     public function __invoke(){
         $posts = Post::where([
-            ['likes','=',5],['is_published',true]
+            ['value','>=',20],['is_published',true]
         ])
         ->limit(4)
         ->latest('updated_at')

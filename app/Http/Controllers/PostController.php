@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -36,7 +36,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|unique:posts|max:255',
+            'body' => 'required',
+            'image_path' => 'required',  // NEED TO ADD MORE VALIDATION HERE F
+            'value' => 'required'
+        ]);
+
+        Auth::user()->posts()->create([
+            'title'=>$request->title,
+            'summary'=>$request->body,
+            'image_path'=>$request->image_path,
+            'is_published'=>1,
+            'value'=>$request->value,
+            'likes'=>1,
+            'comments'=>0,
+            'views'=>0
+        ]);
+        return to_route('posts.index');
     }
 
     /**
@@ -44,18 +61,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        // showing each post
-//        $post = Post::where('id',$post)
-//        ->where('user_id',Auth::id())
-//        ->firstOrFail();
-
-//        if($post->user_id != Auth::id()){
-//            return abort(403);
-//        }
         if(!$post->user->is(Auth::user())){  //if the post doesn't belong to currently authenticated user, then forbidden
             return abort(403);
         }
-
         return view('posts.show')->with('post',$post);
     }
 
@@ -64,7 +72,7 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('posts.edit');
     }
 
     /**
@@ -72,7 +80,17 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        if(!$post->user->is(Auth::user())){
+            return abort(403);
+        }
+
+        $post->update([
+            'title'=>$request->title,
+            'body'=>$request->body
+        ]);
+
+        return to_route('posts.show');
     }
 
     /**

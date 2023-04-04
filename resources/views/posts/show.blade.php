@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Posts') }}
+            {{ __('Post') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -19,6 +19,7 @@
                 <button class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-teal-400 text-white" type="submit">
                     Edit post
                 </button>
+
                 <form action="{{route('posts.destroy',$post)}}" method="post">
                     @method('delete')
                     @csrf

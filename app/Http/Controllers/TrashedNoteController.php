@@ -39,7 +39,7 @@ class TrashedNoteController extends Controller
             return abort(403);
         }
 
-        $post->categories()->detatch();
+        //$post->categories()->detatch();
         $post->forceDelete();
 
         return to_route('trashed.index');

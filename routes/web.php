@@ -29,7 +29,6 @@ Route::get('posts', function () {
 })->middleware(['auth', 'verified'])->name('posts');
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -44,5 +43,8 @@ Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function 
     Route::put('/{post}', [TrashedNoteController::class, 'update'])->name('update')->withTrashed();
     Route::delete('/{post}', [TrashedNoteController::class, 'destroy'])->name('destroy')->withTrashed();
 });
+
+//Route::post('/posts/create', [PostController::class, 'store'])->name('store');
+
 
 require __DIR__.'/auth.php';
