@@ -53,7 +53,7 @@
                         type="number"
                         name="value"
                         field="value"
-                        placeholder="(£) Value"
+{{--                        placeholder="{{@old('value')}}"--}}
                         value="{{@old('value')}}">
                     <br><br>
                     <button type="submit">Submit</button>

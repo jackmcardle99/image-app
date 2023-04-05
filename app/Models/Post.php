@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
@@ -33,6 +35,13 @@ class Post extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function ($post){
+            $post->categories()->detach();
+        });
+    }
     //this code changes the url
 
 //    public function getRouteKeyName(): string

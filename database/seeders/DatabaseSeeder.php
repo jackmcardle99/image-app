@@ -16,23 +16,10 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $this->call([
             UserSeeder::class,
-            PostSeeder::class
+            CategorySeederJSON::class,
+            PostSeederJSON::class,
+            CategoryPostSeeder::class
         ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-
-
-       // \App\Models\Post::factory(10)->create();
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-//        $this->call([
-//            UserSeeder::class,
-//            PostSeeder::class
-//        ]);
-
     }
 }

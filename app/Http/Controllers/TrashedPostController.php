@@ -6,7 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TrashedNoteController extends Controller
+class TrashedPostController extends Controller
 {
     public function index(){
         $userID = Auth::id();
@@ -39,10 +39,10 @@ class TrashedNoteController extends Controller
             return abort(403);
         }
 
-        //$post->categories()->detatch();
+        $post->categories()->detatch();
         $post->forceDelete();
 
-        return to_route('trashed.index');
+        return to_route('trashed.index')->with('success','Deleted successfully');
     }
 
 }

@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "topic": "Indoors",
+        "created_at": "2023-04-05 19:33:31",
+        "updated_at": "2023-04-05 19:33:32"
+    },
+    {
+        "id": 2,
+        "topic": "Outdoors",
+        "created_at": "2023-04-05 19:33:31",
+        "updated_at": "2023-04-05 19:33:32"
+    },
+    {
+        "id": 3,
+        "topic": "BC Building",
+        "created_at": "2023-04-05 19:33:31",
+        "updated_at": "2023-04-05 19:33:32"
+    },
+    {
+        "id": 4,
+        "topic": "BA/BB Building",
+        "created_at": "2023-04-05 19:33:31",
+        "updated_at": "2023-04-05 19:33:32"
+    }
+]

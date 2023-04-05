@@ -4,7 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriorityViewController;
-use App\Http\Controllers\TrashedNoteController;
+use App\Http\Controllers\TrashedPostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,11 +37,18 @@ Route::middleware('auth')->group(function () {
     Route::resource('/categories', CategoryController::class);
 });
 
+Route::prefix('/posts')->name('posts.')->middleware('auth')->group(function (){
+    Route::get('/', [PostController::class, 'index'])->name('index');
+    Route::get('/{post}', [PostController::class, 'show'])->name('show')->withTrashed();
+    Route::put('/{post}', [PostController::class, 'update'])->name('update')->withTrashed();
+    Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy')->withTrashed();
+});
+
 Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function (){
-    Route::get('/', [TrashedNoteController::class, 'index'])->name('index');
-    Route::get('/{post}', [TrashedNoteController::class, 'show'])->name('show')->withTrashed();
-    Route::put('/{post}', [TrashedNoteController::class, 'update'])->name('update')->withTrashed();
-    Route::delete('/{post}', [TrashedNoteController::class, 'destroy'])->name('destroy')->withTrashed();
+    Route::get('/', [TrashedPostController::class, 'index'])->name('index');
+    Route::get('/{post}', [TrashedPostController::class, 'show'])->name('show')->withTrashed();
+    Route::put('/{post}', [TrashedPostController::class, 'update'])->name('update')->withTrashed();
+    Route::delete('/{post}', [TrashedPostController::class, 'destroy'])->name('destroy')->withTrashed();
 });
 
 //Route::post('/posts/create', [PostController::class, 'store'])->name('store');

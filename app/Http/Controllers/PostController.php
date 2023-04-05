@@ -46,7 +46,7 @@ class PostController extends Controller
         Auth::user()->posts()->create([
             'title'=>$request->title,
             'summary'=>$request->body,
-            'image_path'=>$request->image_path,
+            'image_path'=>$request->url,
             'is_published'=>1,
             'value'=>$request->value,
             'likes'=>1,
@@ -78,17 +78,34 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-
-        if(!$post->user->is(Auth::user())){
-            return abort(403);
-        }
-
-        $post->update([
-            'title'=>$request->title,
-            'body'=>$request->body
+//        if(!$post->user->is(Auth::user())){
+//            return abort(403);
+//        }
+        $request->validate([
+            'title' => 'required|unique:posts|max:255',
+            'body' => 'required',
+            'image_path' => 'required',  // NEED TO ADD MORE VALIDATION HERE F
+            'value' => 'required'
         ]);
+
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        if ($request->has('image_path'))
+        {
+            $post->image_path = $this->storeImage($request);
+        }
+        $post->time_to_read = $request->input('time_to_read');
+        if ($request->has('is_published'))
+        {
+            $post->is_published = 1;
+        }
+        else{
+            $post->is_published = 0;
+        }
+        $post->priority = $request->input('priority');
+        $post->update();
 
         return to_route('posts.show');
     }
@@ -106,4 +123,26 @@ class PostController extends Controller
 
         return to_route('posts.index');
     }
+
+    /*
+     * This method is for selecting an image from localdisk, uploading to site
+     * */
+    private function storeImage(Request $request)
+    {
+        if ($request->hasFile('image_path'))
+        {
+            $originalFileName = $request->file('image_path')->getClientOriginalName();
+            $fileName = pathinfo($originalFileName, PATHINFO_FILENAME);
+            $extension = $request->file('image_path')->getClientOriginalExtension();
+            $requester = auth()->user()->email;
+            $fileName = $requester.'_'.$fileName.'_'.time().'.'.$extension;
+
+            //Upload File
+            $request->file('image_path')->storeAs('public/uploads', $fileName);
+            $url = asset('storage/uploads/'.$fileName);
+            return $url;
+        }
+    }
+
+
 }
