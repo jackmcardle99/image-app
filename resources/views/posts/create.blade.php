@@ -33,6 +33,8 @@
                     class="w-full"
                     autocomplete="off"
                     value="{{@old('title')}}">
+
+                {{-- Description            --}}
                     <textarea
                         id="body"
                         name="body"
@@ -42,14 +44,14 @@
                         class="w-full mt-6">{{@old('body')}}
                     </textarea>
 
-                    <input type="file" id="image_path" name="image_path" value="image_path">
-{{--                    <input--}}
-{{--                        type="text"--}}
-{{--                        field="image_path"--}}
-{{--                        name="image_path"--}}
-{{--                        placeholder="Enter image URL"--}}
-{{--                        autocomplete="off"--}}
-{{--                        value="{{@old('image_path')}}">--}}
+                    <input
+                        type="text"
+                        field="image_path"
+                        name="image_path"
+                        placeholder="Enter image URL"
+                        autocomplete="off"
+                        value="{{@old('image_path')}}">
+
                     <input
                         type="number"
                         name="value"

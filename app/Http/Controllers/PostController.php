@@ -18,7 +18,7 @@ class PostController extends Controller
         $posts = Post::where('user_id', $userID)
         ->where('is_published',true)
         ->latest('updated_at')
-        ->paginate(5);
+        ->paginate(6);
 
         return view('posts.index')->with('posts',$posts);
     }
@@ -46,7 +46,7 @@ class PostController extends Controller
         Auth::user()->posts()->create([
             'title'=>$request->title,
             'summary'=>$request->body,
-            'image_path'=>$request->url,
+            'image_path'=>$request->image_path,
             'is_published'=>1,
             'value'=>$request->value,
             'likes'=>1,
