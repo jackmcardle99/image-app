@@ -36,14 +36,20 @@
 
                 {{-- Description            --}}
                     <textarea
-                        id="body"
-                        name="body"
+                        id="summary"
+                        name="summary"
                         rows="10"
                         field="text"
                         placeholder="Post description goes here..."
-                        class="w-full mt-6">{{@old('body')}}
+                        class="w-full mt-6">{{@old('summary')}}
                     </textarea>
 
+{{--                    <input--}}
+{{--                        type="file"--}}
+{{--                        field="image_path"--}}
+{{--                        name="image_path"--}}
+{{--                        autocomplete="off"--}}
+{{--                        value="{{@old('image_path')}}">--}}
                     <input
                         type="text"
                         field="image_path"

@@ -20,7 +20,6 @@ class Post extends Model
         'image_path',
         'is_published',
         'value',
-        'likes',
         'comments',
         'views',
         'created_at',

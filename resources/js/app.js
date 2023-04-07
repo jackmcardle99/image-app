@@ -20,7 +20,7 @@ import ListPlugin from '@ckeditor/ckeditor5-list/src/list';
 import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 
 ClassicEditor
-    .create( document.querySelector( '#body'), {
+    .create( document.querySelector( '#summary'), {
         // The plugins are now passed directly to .create().
         plugins: [
             EssentialsPlugin,
@@ -53,3 +53,10 @@ ClassicEditor
     .catch( error => {
         console.error( error );
     } );
+
+//this is for jquery flash messaging
+$(document).ready(function(){
+    setTimeout(function () {
+        $(".flashmessage").slideUp('slow');
+    }, 3000);
+});

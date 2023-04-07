@@ -6,6 +6,29 @@
     </x-slot>
 
     <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        @if (session('success'))
+            <div class="flashmessage alert flex flex-row items-center bg-green-200 p-5 rounded border-b-2 border-green-300 py-5 mb-4">
+                <div class="alert-icon flex items-center bg-green-100 border-2 border-green-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                <span class="text-green-500">
+                <svg fill="currentColor" viewBox="0 0 20 20" class="h-6 w-6">
+                <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"></path>
+                </svg>
+                </span>
+                </div>
+                <div class="alert-content ml-4">
+                    <div class="alert-title font-semibold text-lg text-green-800">
+                        {{ __('Success') }}
+                    </div>
+                    <div class="alert-description text-sm text-green-600">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            </div>
+        @endif
+        </div>
         <div class="dark:bg-slate-900 flex-auto flex space-x-4 justify-center">
             @if(request()->routeIs('posts.index'))
                 <a href="{{route('posts.create')}}" class="btn-link btn-lg mb-2">
@@ -18,7 +41,6 @@
             <button class="hover:bg-sky-700 h-10 px-6 font-semibold rounded-md border dark:bg-cyan-500 bg-teal-600 border-slate-200 text-white" type="button">
                 Search
             </button>
-
     </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 {{--            @if(request()->routeIs('notes.index'))--}}
@@ -53,12 +75,6 @@
                     <strong>{{ Auth::user()->name }}</strong>
                 </div><br>
                 <div class="inline-flex space-x-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                         width="24" height="24"
-                         viewBox="0 0 24 24">
-                        <path d="M 4 2 L 4 22 L 12 19 L 20 22 L 20 2 L 6 2 L 4 2 z"></path>
-                    </svg>
-                    {{$post->likes}}
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                          width="24" height="24"
                          viewBox="0 0 24 24">

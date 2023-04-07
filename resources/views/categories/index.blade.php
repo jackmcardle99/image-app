@@ -18,6 +18,17 @@
                 <h2 class="font-bold text-2xl">
                     {{ $category->topic }}
                 </h2>
+
+                <p class="dark:text-slate-400  pt-4 italic text-gray-500">
+                    Posts that use this category:
+                    @forelse($category->posts as $post)
+                        <a href="{{route('posts.show',$post)}}">
+                        {{$post->title}}@if (!$loop->last),@endif
+                        </a>
+                    @empty
+                        <span>No posts under this category.</span>
+                    @endforelse
+                </p>
                 <br>
             </div>
             @empty

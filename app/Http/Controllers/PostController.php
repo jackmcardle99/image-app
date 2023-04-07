@@ -38,22 +38,21 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|unique:posts|max:255',
-            'body' => 'required',
-            'image_path' => 'required',  // NEED TO ADD MORE VALIDATION HERE F
+            'summary' => 'required',
+            //'image_path' => 'image',  // NEED TO ADD MORE VALIDATION HERE F
             'value' => 'required'
         ]);
 
         Auth::user()->posts()->create([
             'title'=>$request->title,
-            'summary'=>$request->body,
+            'summary'=>$request->summary,
             'image_path'=>$request->image_path,
             'is_published'=>1,
             'value'=>$request->value,
-            'likes'=>1,
             'comments'=>0,
             'views'=>0
         ]);
-        return to_route('posts.index');
+        return to_route('posts.index')->with('success','Post created successfully.');
     }
 
     /**
@@ -70,44 +69,72 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        return view('posts.edit');
+        return view('posts.edit')->with('post',$post);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
-    {
-//        if(!$post->user->is(Auth::user())){
-//            return abort(403);
+//    public function update(Request $request)
+//    {
+////        if(!$post->user->is(Auth::user())){
+////            return abort(403);
+////        }
+//        $request->validate([
+//            'title' => 'required|unique:posts|max:255',
+//            'body' => 'required',
+//            'image_path' => 'required',  // NEED TO ADD MORE VALIDATION HERE F
+//            'value' => 'required'
+//        ]);
+//
+//        $post->title = $request->input('title');
+//        $post->body = $request->input('body');
+//        if ($request->has('image_path'))
+//        {
+//            $post->image_path = $this->storeImage($request);
 //        }
+//        $post->time_to_read = $request->input('time_to_read');
+//        if ($request->has('is_published'))
+//        {
+//            $post->is_published = 1;
+//        }
+//        else{
+//            $post->is_published = 0;
+//        }
+//        $post->priority = $request->input('priority');
+//        $post->update();
+//
+//        return to_route('posts.show');
+//    }
+
+    public function update(Request $request, Post $post){
         $request->validate([
-            'title' => 'required|unique:posts|max:255',
-            'body' => 'required',
-            'image_path' => 'required',  // NEED TO ADD MORE VALIDATION HERE F
+            'title' => 'required|max:255|unique:posts,title,' . $post->id,
+            'summary' => 'required',
+           // 'image_path' => 'image',
             'value' => 'required'
         ]);
+        $post->update([
+            'title'=>$request->title,
+            'summary'=>$request->summary
+        ]);
 
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
-        if ($request->has('image_path'))
-        {
-            $post->image_path = $this->storeImage($request);
-        }
-        $post->time_to_read = $request->input('time_to_read');
-        if ($request->has('is_published'))
-        {
-            $post->is_published = 1;
-        }
-        else{
-            $post->is_published = 0;
-        }
-        $post->priority = $request->input('priority');
-        $post->update();
-
-        return to_route('posts.show');
+//        if ($request->has('image_path'))
+//        {
+//            $post->image_path = $this->storeImage($request);
+//        }
+//        if ($request->has('is_published'))
+//        {
+//            $post->is_published = 1;
+//        }
+//        else{
+//            $post->is_published = 0;
+//        }
+//        //$post->priority = $request->input('priority');
+//        $post->update();
+        return to_route('posts.show', $post)->with('success','Post updated successfully.');
     }
 
     /**
@@ -121,7 +148,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        return to_route('posts.index');
+        return to_route('posts.index')->with('success', 'Post deleted successfully');
     }
 
     /*

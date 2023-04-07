@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('image_path');
             $table->boolean('is_published');
             $table->integer('value');
-            $table->integer('likes');
             $table->integer('comments');
             $table->integer('views');
             $table->timestamps();

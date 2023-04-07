@@ -40,7 +40,8 @@ Route::middleware('auth')->group(function () {
 Route::prefix('/posts')->name('posts.')->middleware('auth')->group(function (){
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('/{post}', [PostController::class, 'show'])->name('show')->withTrashed();
-    Route::put('/{post}', [PostController::class, 'update'])->name('update')->withTrashed();
+    //Route::get('/{post}', [PostController::class, 'edit'])->name('edit')->withTrashed();
+    Route::patch('/{post}', [PostController::class, 'update'])->name('update')->withTrashed();
     Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy')->withTrashed();
 });
 

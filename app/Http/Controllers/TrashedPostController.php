@@ -31,7 +31,7 @@ class TrashedPostController extends Controller
             return abort(403);
         }
         $post->restore();
-        return to_route('trashed.index');
+        return to_route('trashed.index')->with('success','Post restored successfully');
     }
 
     public function destroy(Post $post){
@@ -42,7 +42,7 @@ class TrashedPostController extends Controller
         //$post->categories()->detatch();
         $post->forceDelete();
 
-        return to_route('trashed.index')->with('success','Deleted successfully');
+        return to_route('trashed.index')->with('success','Post permanently deleted successfully');
     }
 
 }

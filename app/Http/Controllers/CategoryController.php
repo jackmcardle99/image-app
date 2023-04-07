@@ -13,8 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('topic','asc')->with('posts')->get();
-//        $categories = Category::orderBy('topic','asc');
+        $categories = Category::orderBy('topic','asc')->with('posts')->get(); // with('posts') is eager loading
         return view('categories.index', compact('categories'));
     }
 

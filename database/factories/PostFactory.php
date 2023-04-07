@@ -23,7 +23,6 @@ class PostFactory extends Factory
             'image_path' => $this->faker->imageUrl(640,480),
             'is_published' => $this->faker->boolean(50),
             'value' => $this->faker->numberBetween(1,100),
-            'likes' => $this->faker->numberBetween(1,10),
             'comments' =>$this->faker->numberBetween(1,5),
             'views' =>$this->faker->numberBetween(1,1000),
         ];
