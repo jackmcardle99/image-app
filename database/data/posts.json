@@ -7,8 +7,6 @@
     "image_path": "https://i.imgur.com/U5nx6wf.jpg",
     "is_published": 1,
     "value": 80,
-    "comments": 1,
-    "views": 750,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -20,8 +18,6 @@
     "image_path": "https://i.imgur.com/vG9pa4t.jpg",
     "is_published": 1,
     "value": 50,
-    "comments": 2,
-    "views": 351,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -33,7 +29,6 @@
     "image_path": "https://i.imgur.com/ora5H4L.jpg",
     "is_published": 1,
     "value": 100,
-    "comments": 4,
     "views": 647,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
@@ -46,8 +41,6 @@
     "image_path": "https://i.imgur.com/FWyIXWf.jpg",
     "is_published": 1,
     "value": 50,
-    "comments": 5,
-    "views": 462,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -59,8 +52,6 @@
     "image_path": "https://i.imgur.com/PpQJfPc.jpg",
     "is_published": 1,
     "value":120,
-    "comments": 2,
-    "views": 423,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -72,8 +63,6 @@
     "image_path": "https://i.imgur.com/U4tstOm.jpg",
     "is_published": 1,
     "value": 120,
-    "comments": 1,
-    "views": 580,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -85,8 +74,6 @@
     "image_path": "https://i.imgur.com/uv2am0q.jpg",
     "is_published": 1,
     "value": 50,
-    "comments": 1,
-    "views": 216,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -98,8 +85,6 @@
     "image_path": "https://i.imgur.com/RW37zTM.jpg",
     "is_published": 1,
     "value": 200,
-    "comments": 4,
-    "views": 1203,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -111,8 +96,6 @@
     "image_path": "https://via.placeholder.com/640x480.png/00aa77?text=adipisci",
     "is_published": 0,
     "value": 4,
-    "comments": 4,
-    "views": 571,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   },
@@ -124,8 +107,6 @@
     "image_path": "https://via.placeholder.com/640x480.png/007700?text=quas",
     "is_published": 1,
     "value": 51,
-    "comments": 2,
-    "views": 992,
     "created_at": "2023-04-02 14:44:47",
     "updated_at": "2023-04-02 14:44:47"
   }

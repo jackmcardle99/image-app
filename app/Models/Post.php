@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use Coderflex\Laravisit\Concerns\HasVisits;
+use Coderflex\Laravisit\Concerns\CanVisit;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Usamamuneerchaudhary\Commentify\Traits\Commentable;
 
-class Post extends Model
+class Post extends Model implements CanVisit
 {
     use HasFactory;
     use SoftDeletes; //for trash feature
     use Commentable; //for comments feature
+    use HasVisits; // for views
+
 
     protected $fillable =[
         'user_id',

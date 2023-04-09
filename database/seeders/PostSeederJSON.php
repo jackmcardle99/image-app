@@ -28,8 +28,6 @@ class PostSeederJSON extends Seeder
                 "image_path"=>$value->image_path,
                 "is_published"=>$value->is_published,
                 "value"=>$value->value,
-                "comments"=>$value->comments,
-                "views"=>$value->views,
                 "created_at"=>$value->created_at,
                 "updated_at"=>$value->updated_at
             ]);

@@ -67,6 +67,7 @@
                 </div>
 
             </div>
+            You are visitor: {{ $total_visits_to_home_page }}
         </div>
     </body>
 </html>

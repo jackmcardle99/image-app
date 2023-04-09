@@ -17,8 +17,8 @@ class PostController extends Controller
         $posts = Post::where('user_id', $userID)
         ->where('is_published',true)
         ->latest('updated_at')
+        ->withTotalVisitCount()
         ->paginate(6);
-
         return view('posts.index')->with('posts',$posts);
     }
 
@@ -62,6 +62,7 @@ class PostController extends Controller
         if(!$post->user->is(Auth::user())){  //if the post doesn't belong to currently authenticated user, then forbidden
             return abort(403);
         }
+        $post->visit()->customInterval(now()->addSeconds(30))->withIP()->withUser(); // for post visits
         return view('posts.show')->with('post',$post);
     }
 
@@ -117,7 +118,8 @@ class PostController extends Controller
         ]);
         $post->update([
             'title'=>$request->title,
-            'summary'=>$request->summary
+            'summary'=>$request->summary,
+            'value'=>$request->value
         ]);
 
 //        if ($request->has('image_path'))

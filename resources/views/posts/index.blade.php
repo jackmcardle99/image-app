@@ -75,19 +75,8 @@
                     </svg>
                     <strong>{{ Auth::user()->name }}</strong>
                 </div><br>
-                <div class="inline-flex space-x-3">
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"--}}
-{{--                         width="24" height="24"--}}
-{{--                         viewBox="0 0 24 24">--}}
-{{--                        <path d="M 12 2 A 9 9 0 0 0 3 11 A 9 9 0 0 0 12 20 L 12 23 C 12 23 19.39165 19.370314 20.761719 13.015625 A 9 9 0 0 0 20.839844 12.65625 C 20.880821 12.423525 20.923277 12.190914 20.947266 11.951172 A 9 9 0 0 0 20.957031 11.863281 C 20.982749 11.579721 21 11.293169 21 11 A 9 9 0 0 0 12 2 z"></path>--}}
-{{--                    </svg>--}}
-{{--                    {{$post->comments}}--}}
-{{--                    {{$comments->count()}}--}}
-{{--                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 12c0-2.25 3.75-7.5 10.5-7.5S22.5 9.75 22.5 12s-3.75 7.5-10.5 7.5S1.5 14.25 1.5 12zM12 16.75a4.75 4.75 0 1 0 0-9.5 4.75 4.75 0 0 0 0 9.5zM14.7 12a2.7 2.7 0 1 1-5.4 0 2.7 2.7 0 0 1 5.4 0z" fill="#000000"/></svg>--}}
-{{--                    {{$post->views}}--}}
-
-                </div>
-                <span class="block mt-4 text-sm opacity-70">{{$post->updated_at->diffForHumans()}}</span>
+                <span class="block mt-4 text-sm opacity-70">Views: {{$post->visit_count_total}}</span>
+                <span class="block  text-sm opacity-70">Updated: {{$post->updated_at->diffForHumans()}}</span>
             </div>
             </a>
             @empty
