@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/posts', PostController::class);
-    Route::resource('/categories', CategoryController::class);
+    //Route::resource('/categories', CategoryController::class);
 });
 
 Route::prefix('/posts')->name('posts.')->middleware('auth')->group(function (){
@@ -52,7 +52,10 @@ Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function 
     Route::delete('/{post}', [TrashedPostController::class, 'destroy'])->name('destroy')->withTrashed();
 });
 
-//Route::post('/posts/create', [PostController::class, 'store'])->name('store');
+Route::middleware('can:is_admin')->group(function () { // with this route, only admins can access
+    Route::resource('/categories', CategoryController::class);
+    //Route::resource('/posts', PostController::class);
+});
 
 
 require __DIR__.'/auth.php';

@@ -69,9 +69,11 @@
                 <p>£{{ $post->value }}</p>
                 <p class="mt-6 whitespace-pre-wrap">{{$post->summary}}</p>
                 <div class="mt-3">
-                    <img src="{{$post->image_path}}" alt="image url: {{$post->image_ppath}}">
+                    <img src="{{$post->image_path}}" alt="image url: {{$post->image_path}}">
                 </div>
             </div>
+
+                <livewire:comments :model="$post"/>
 
         </div>
     </div>

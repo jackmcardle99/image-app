@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Usamamuneerchaudhary\Commentify\Traits\Commentable;
 
 class Post extends Model
 {
     use HasFactory;
     use SoftDeletes; //for trash feature
+    use Commentable; //for comments feature
 
     protected $fillable =[
         'user_id',
