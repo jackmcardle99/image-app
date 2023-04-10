@@ -16,7 +16,9 @@ class CommentController extends Controller
     public function index()
     {
 //        $comments = Comment::where('post_id',$postID)->get();
-        $comments = Comment::orderBy('created_at','desc')->with('user')->get(); // with('posts') is eager loading
+        $comments = Comment::orderBy('created_at','desc')
+            ->with('user')
+            ->paginate(5);
         return view('comments.index',compact('comments'));
     }
 
@@ -25,7 +27,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+       // return view('comments.store');
+            //return view('posts.create');
     }
 
     /**
@@ -33,7 +36,19 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dump($request->post_id);
+        $request->validate([
+            'body'=>'required',
+        ]);
+
+        $input = $request->all();
+        //$input['post_id'] = 1;
+        $input['user_id'] = auth()->user()->id;
+
+
+        Comment::create($input);
+
+        return back();
     }
 
     /**

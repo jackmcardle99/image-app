@@ -56,6 +56,7 @@ Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function 
 Route::prefix('/posts/{post}/comments')->name('comments.')->middleware('auth')->group(function(){
     Route::get('/', [CommentController::class, 'index'])->name('index');
     Route::get('/{post}', [CommentController::class, 'show'])->name('show');
+    Route::post('/', [CommentController::class, 'store'])->name('store');
     Route::put('/{post}', [CommentController::class, 'update'])->name('update');
     Route::delete('/{post}', [CommentController::class, 'destroy'])->name('destroy');
 });

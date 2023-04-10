@@ -19,7 +19,7 @@
                 </div><br>
             </div>
             @endforeach
-
+                {{$comments->links()}}
                 <div class="grid md:grid-cols-3 grid-cols-1 gap-4">
                     <div>
 
