@@ -46,4 +46,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function posts(){  // for defining relationship in db, one to many
         return $this->hasMany(Post::class);
     }
+
+    public function comments(){ //for defining relationship in db
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -186,7 +186,7 @@ return [
          * Package Service Providers...
          *
          */
-        Usamamuneerchaudhary\Commentify\Providers\CommentifyServiceProvider::class,  //for comments
+
 
 
         /*

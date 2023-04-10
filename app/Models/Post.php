@@ -13,7 +13,6 @@ class Post extends Model implements CanVisit
 {
     use HasFactory;
     use SoftDeletes; //for trash feature
-    use Commentable; //for comments feature
     use HasVisits; // for views
 
 
@@ -24,8 +23,6 @@ class Post extends Model implements CanVisit
         'image_path',
         'is_published',
         'value',
-        'comments',
-        'views',
         'created_at',
         'updated_at'
     ];
@@ -38,6 +35,9 @@ class Post extends Model implements CanVisit
         return $this->belongsToMany(Category::class);
     }
 
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
     public static function boot(){
         parent::boot();
 

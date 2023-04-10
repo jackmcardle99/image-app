@@ -5,6 +5,7 @@
         </h2>
     </x-slot>
 
+    @can('is_user')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         @if (session('success'))
@@ -32,25 +33,24 @@
         <div class="dark:bg-slate-900 flex-auto flex space-x-4 justify-center">
             @if(request()->routeIs('posts.index'))
                 <a href="{{route('posts.create')}}" class="btn-link btn-lg mb-2">
-            <button class="hover:bg-sky-700 h-10 px-6 font-semibold rounded-md dark:bg-cyan-500 bg-teal-400 text-white" type="submit">
+            <button class="hover:bg-sky-700 h-10 px-6 font-semibold rounded-md dark:bg-cyan-500 bg-black text-white" type="submit">
                 +
                 Create post
             </button>
                 </a>
             @endif
-            <button class="hover:bg-sky-700 h-10 px-6 font-semibold rounded-md border dark:bg-cyan-500 bg-teal-600 border-slate-200 text-white" type="button">
+            <button class="hover:bg-sky-700 h-10 px-6 font-semibold rounded-md border dark:bg-cyan-500 bg-black border-slate-200 text-white" type="button">
                 Search
             </button>
     </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-{{--            @if(request()->routeIs('notes.index'))--}}
             {{$posts->links()}}
             <br>
 
             <div class="grid md:grid-cols-3 grid-cols-1 gap-4">
             @forelse($posts as $post)
             <a href="{{route('posts.show',$post)}}">
-            <div class="hover:scale-105 transform-gpu dark:bg-slate-800 my-6 p-6 bg-white border-b border-gray-200 shadow-sm rounded-md sm:rounded-lg">
+            <div class="md:hover:scale-105 transform-gpu dark:bg-slate-800 my-6 p-6 bg-white border-b border-gray-200 shadow-sm rounded-md sm:rounded-lg">
                 <h2 class="dark:text-white font-bold text-2xl">
                     {{ $post->title }}
                 </h2>
@@ -89,4 +89,17 @@
             {{$posts->links()}}
         </div>
     </div>
+    @endcan
+    @can('is_admin')
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @endcan
 </x-app-layout>

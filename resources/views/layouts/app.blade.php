@@ -16,10 +16,10 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @livewireStyles
+
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen dark:bg-slate-900 bg-gray-100">
+        <div class="min-h-screen dark:bg-slate-800 bg-gray-100">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -36,6 +36,5 @@
                 {{ $slot }}
             </main>
         </div>
-        @livewireScripts
     </body>
 </html>

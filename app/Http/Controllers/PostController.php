@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ class PostController extends Controller
     public function index()
     {
         //show all posts
+
         $userID = Auth::id();
         $posts = Post::where('user_id', $userID)
         ->where('is_published',true)
@@ -48,8 +50,6 @@ class PostController extends Controller
             'image_path'=>$request->image_path,
             'is_published'=>1,
             'value'=>$request->value,
-            'comments'=>0,
-            'views'=>0
         ]);
         return to_route('posts.index')->with('success','Post created successfully.');
     }
