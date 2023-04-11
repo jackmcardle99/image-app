@@ -51,6 +51,8 @@
                 <p class="opacity-70 sm:px-6 py-1">
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
+
+
                 <form action="{{route('comments.index',$post->id)}}" method="post" class="ml-auto mr-5">
                     @method('get')
                     @csrf
@@ -82,10 +84,10 @@
             </div>
 
             <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg dark:bg-gray-800">
-                <h2 class="font-bold text-4xl">
-                    {{$post->title}}
-                </h2><br>
-                <p>£{{ $post->value }}</p>
+                <div class="flex">
+                    <h2 class="font-bold text-4xl">{{$post->title}}</h2><br>
+                    <p class="ml-auto text-3xl  font-semibold text-slate-500">£{{ $post->value.".00" }}</p>
+                </div>
                 <p class="mt-6 whitespace-pre-wrap">{!! ($post->summary) !!}</p>
                 <div class="mt-3">
                     <img src="{{$post->image_path}}" alt="image url: {{$post->image_path}}">
@@ -94,6 +96,65 @@
 
             </div>
         </div>
+
+                    {{--       ENTER COMMENT SECTION    --}}
+        <div class="sm:px-6 lg:px-8"></div>
+        <form  method="post" action="{{ route('comments.store',$post)}}">
+            @method('post')
+            @csrf
+            <div class="flex justify-center">
+                    <textarea
+                        class="min-h-[100px] md:w-1/4 w-3/4 resize-none rounded-[7px] border border-blue-gray-200
+                         bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0
+                         transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200
+                         placeholder-shown:border-t-blue-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none
+                          disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                        placeholder="Type comment here... " name="body"></textarea>
+
+                <input type="hidden" name="post_id"
+                       value="{{$post->id}}"/>
+            </div>
+            <div class="flex justify-center mt-5">
+                <button type="submit" class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
+                        rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                        active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                        disabled:opacity-25 transition ease-in-out duration-150">Comment
+                </button>
+            </div>
+        </form>
+        </div>
+
+                            {{--    COMMENTS SECTION    --}}
+    <div class="py-12">
+        @forelse($post->comments->reverse() as $comment) {{-- reverse() because we want comments to display descending--}}
+        <!-- component -->
+        <div class="flex items-center justify-center dark:bg-gray-800 mb-5">
+            <figure class="w-1/2 md:flex bg-slate-200 rounded-xl p-8 md:p-0 dark:bg-slate-800">
+                <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+                    <blockquote>
+                        <p class="text-lg font-medium break-all">
+                            "{{$comment->body}}"
+                        </p>
+                    </blockquote>
+                    <figcaption class="font-medium">
+                        <div class="text-sky-500 dark:text-sky-400">
+                            {{$comment->user->name}}
+                        </div>
+                        <div class="text-slate-700 dark:text-slate-500">
+                            {{$comment->created_at->diffForHumans()}}
+                        </div>
+                    </figcaption>
+                </div>
+            </figure>
+        </div>
+        @empty
+            <div class="flex items-center justify-center dark:bg-gray-800 mb-5">
+                <p class="mt-5 font-semibold text-xl">No comments yet!</p>
+            </div>
+
+        @endforelse
+    </div>
+
 {{--        <div class="mx-auto max-w-4xl sm:px-6 lg:px-8">--}}
 {{--            <form class="" method="post" action="{{ route('comments.store',$post)}}">--}}
 {{--                @method('post')--}}
@@ -115,5 +176,5 @@
 {{--                    --}}{{-- Including the file below displays the comment display view --}}
 {{--            @include('comments.commentsDisplay', ['comments' => $post->comments, 'post_id' => $post->id])--}}
 {{--        </div>--}}
-    </div>
+{{--    </div>--}}
 </x-app-layout>

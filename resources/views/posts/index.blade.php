@@ -55,9 +55,9 @@
             <div class="grid md:grid-cols-3 grid-cols-1 gap-4">
             @forelse($posts as $post)
             <a href="{{route('posts.show',$post)}}">
-            <div class="md:hover:scale-105 transform-gpu dark:bg-slate-800 my-6 p-6 bg-white border-b border-gray-200 shadow-sm rounded-md sm:rounded-lg">
+            <div class=" md:hover:scale-105 transform-gpu dark:bg-slate-800 my-6 p-6 bg-white border-b border-gray-200 shadow-sm rounded-md sm:rounded-lg">
                 <h2 class="dark:text-white font-bold text-2xl">
-                    {{ $post->title }}
+                    {{Str::limit($post->title,30)}}
                 </h2>
                 <p class="dark:text-slate-400  pt-4 italic text-gray-500">
                     Categories:
@@ -68,10 +68,12 @@
                     @endforelse
                 </p>
                 <br>
-                <p class="dark:text-white">
                     <span> <img src="{{$post->image_path}}" width="160" > </span><br>
-                    {!! (Str::limit($post->summary, 40)) !!}
-                </p><br>
+                <p class="dark:text-white line-clamp-1">
+{{--                    {{Str::limit($post->summary, 40)}}--}}
+                    {!! html_entity_decode(Str::limit($post->summary, 40)) !!}
+                </p>
+                <br>
                 <div class="flex space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                     width="24" height="24"
