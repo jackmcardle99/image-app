@@ -16,20 +16,23 @@
                 <p class="opacity-70 sm:px-6 py-2">
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
-                <form action="{{route('trashed.update',$post)}}" method="post">
+                <form action="{{route('trashed.update',$post)}}" method="post" class="ml-auto mr-5">
                     @method('put')
                     @csrf
-                    <button class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-teal-400 text-white">
-                        Restore post
+                    <button class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">Restore
                     </button>
                 </form>
 
-                <form action="{{route('trashed.destroy',$post)}}" method="post">
+                <form action="{{route('trashed.destroy',$post)}}" method="post" class="">
                     @method('delete')
                     @csrf
-                    <button class="h-10 px-6 font-semibold rounded-md bg-red-400 text-white " type="submit" onclick="return confirm('Are you sure you would like to permanently delete this post? ' +
-                     'You will not be able to recover it.')">
-                        Permanently delete
+                    <button class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">Destroy
                     </button>
                     {{--                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you would like to delete this post?')">Delete</button>--}}
                 </form>

@@ -1,8 +1,18 @@
 @foreach($comments as $comment)
     <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg dark:bg-gray-800">
-        <strong>{{ $comment->user->name }}</strong>
+        <div class="flex">
+            <p>
+                <strong>{{ $comment->user->name}}  </strong> |
+            </p>
+
+            <p class="opacity-70 text-sm py-0.5 ">
+            {{$comment->created_at->diffForHumans()}}
+            </p>
+        </div>
+
+
         <p>{{ $comment->body }}</p>
-        {{$comment->created_at->diffForHumans()}}
+
 {{--        <a href="" id="reply"></a>--}}
 {{--        <form method="post" action="{{route('comments.store')}}">--}}
 {{--            @csrf--}}

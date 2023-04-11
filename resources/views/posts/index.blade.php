@@ -32,16 +32,21 @@
         </div>
         <div class="dark:bg-slate-900 flex-auto flex space-x-4 justify-center">
             @if(request()->routeIs('posts.index'))
-                <a href="{{route('posts.create')}}" class="btn-link btn-lg mb-2">
-            <button class="hover:bg-sky-700 h-10 px-6 font-semibold rounded-md dark:bg-cyan-500 bg-black text-white" type="submit">
-                +
-                Create post
-            </button>
+                <a href="{{route('posts.create')}}" class="btn-link">
+                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">+ Create Post
+                    </button>
                 </a>
             @endif
-            <button class="hover:bg-sky-700 h-10 px-6 font-semibold rounded-md border dark:bg-cyan-500 bg-black border-slate-200 text-white" type="button">
-                Search
-            </button>
+                <a href="{{url('/search')}}">
+                <button class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">Search
+                </button>
+                </a>
     </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             {{$posts->links()}}
@@ -65,7 +70,7 @@
                 <br>
                 <p class="dark:text-white">
                     <span> <img src="{{$post->image_path}}" width="160" > </span><br>
-                    {{ Str::limit($post->summary, 40) }}
+                    {!! (Str::limit($post->summary, 40)) !!}
                 </p><br>
                 <div class="flex space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"

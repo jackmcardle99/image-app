@@ -30,9 +30,9 @@
                     </div>
                 </div>
             @endif
-            <div class="flex ">
+            <div class="flex">
                 <a href="{{ url()->previous() }}">
-                    <svg class="h-7" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                    <svg class="h-7 " viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
@@ -42,30 +42,40 @@
                         </g>
                     </svg>
                 </a>
-                <p class="opacity-70 sm:px-6 py-2">
+                <p class="opacity-70 sm:px-6 py-1">
                     <strong>Author: </strong> {{ Auth::user()->name }}
                 </p>
-                <p class="opacity-70 sm:px-6 py-2">
+                <p class="opacity-70 sm:px-6 py-1">
                     <strong>Created: </strong> {{$post->created_at->diffForHumans()}}
                 </p>
-                <p class="opacity-70 sm:px-6 py-2">
+                <p class="opacity-70 sm:px-6 py-1">
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
-                <form action="{{route('posts.edit',$post)}}" method="post">
+                <form action="{{route('comments.index',$post->id)}}" method="post" class="ml-auto mr-5">
                     @method('get')
                     @csrf
-                    <button class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-teal-400 text-white"
-                            type="submit">
-                        Edit post
+                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">Comments
                     </button>
                 </form>
-
-                <form action="{{route('posts.destroy',$post)}}" method="post">
+                <form action="{{route('posts.edit',$post)}}" method="post" class="mr-5">
+                    @method('get')
+                    @csrf
+                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">Edit
+                    </button>
+                </form>
+                <form action="{{route('posts.destroy',$post)}}" method="post" class="">
                     @method('delete')
                     @csrf
-                    <button class="h-10 px-6 font-semibold rounded-md bg-red-400 text-white " type="submit"
-                            onclick="return confirm('Are you sure you would like to delete this post?')">
-                        Delete post
+                    <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">Delete
                     </button>
                     {{--                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you would like to delete this post?')">Delete</button>--}}
                 </form>
@@ -76,41 +86,34 @@
                     {{$post->title}}
                 </h2><br>
                 <p>£{{ $post->value }}</p>
-                <p class="mt-6 whitespace-pre-wrap">{{$post->summary}}</p>
+                <p class="mt-6 whitespace-pre-wrap">{!! ($post->summary) !!}</p>
                 <div class="mt-3">
                     <img src="{{$post->image_path}}" alt="image url: {{$post->image_path}}">
                 </div>
                 <br>
-                    <form action="{{route('comments.index',$post)}}" method="post">
-                        @method('get')
-                        @csrf
-                        <button class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-black text-white" type="submit">
-                            View comments
-                        </button>
-                    </form>
-            </div>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-                {{-- Including the file below displays the comment display view               --}}
-                @include('comments.commentsDisplay', ['comments' => $post->comments, 'post_id' => $post->id])
-                <h4>Add comment</h4>
-                <form method="post" action="{{ route('comments.store',$post)}}">
-                    @method('post')
-                    @csrf
-                    <div class="form-group">
-                        <textarea class="form-control" name="body"></textarea>
-                        <input type="hidden" name="post_id"
-                         value="{{$post->id}}"
-                        />
-
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-success" value="Add Comment" />
-                    </div>
-                </form>
-{{--                {{$comments->links()}}--}}
 
             </div>
         </div>
+{{--        <div class="mx-auto max-w-4xl sm:px-6 lg:px-8">--}}
+{{--            <form class="" method="post" action="{{ route('comments.store',$post)}}">--}}
+{{--                @method('post')--}}
+{{--                @csrf--}}
+{{--                <div>--}}
+{{--                    <textarea class="w-1/2 h-1/3 border-r" placeholder="Type comment here..." name="body"></textarea>--}}
+{{--                    <input type="hidden" name="post_id"--}}
+{{--                           value="{{$post->id}}"--}}
+{{--                    />--}}
+
+{{--                </div>--}}
+{{--                <div>--}}
+{{--                    <button type="submit" class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-black text-white">--}}
+{{--                        Add Comment--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--            </form>--}}
+
+{{--                    --}}{{-- Including the file below displays the comment display view --}}
+{{--            @include('comments.commentsDisplay', ['comments' => $post->comments, 'post_id' => $post->id])--}}
+{{--        </div>--}}
     </div>
 </x-app-layout>

@@ -13,13 +13,12 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Post $post)
     {
-//        $comments = Comment::where('post_id',$postID)->get();
-        $comments = Comment::orderBy('created_at','desc')
-            ->with('user')
-            ->paginate(5);
-        return view('comments.index',compact('comments'));
+        $comments = Comment::where('post_id',$post->id)->orderBy('created_at','desc')
+            ->with('post')
+            ->paginate(10);
+        return view('comments.index',compact('comments','post'));
     }
 
     /**
@@ -27,8 +26,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-       // return view('comments.store');
-            //return view('posts.create');
+      return view('comments.create');
     }
 
     /**
