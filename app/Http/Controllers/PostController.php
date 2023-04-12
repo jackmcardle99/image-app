@@ -6,6 +6,8 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+
 class PostController extends Controller
 {
     /**
@@ -14,13 +16,13 @@ class PostController extends Controller
     public function index()
     {
         //show all posts
-
         $userID = Auth::id();
         $posts = Post::where('user_id', $userID)
         ->where('is_published',true)
         ->latest('updated_at')
         ->withTotalVisitCount()
         ->paginate(6);
+
         return view('posts.index')->with('posts',$posts);
     }
 
@@ -38,20 +40,32 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|unique:posts|max:255',
-            'summary' => 'required',
-            //'image_path' => 'image',  // NEED TO ADD MORE VALIDATION HERE F
+            'title' => 'required|unique:posts|max:30',
+            'summary' => 'required|max:250',
+            'image_filename' => 'image|required',
             'value' => 'required'
         ]);
 
-        Auth::user()->posts()->create([
+
+        $post = Auth::user()->posts()->create([
             'title'=>$request->title,
             'summary'=>$request->summary,
-            'image_path'=>$request->image_path,
-            'is_published'=>1,
+            'image_filename'=>$this->storeImage($request),
+            'is_published'=>$request->is_published === 'on' ?  '1' : '0',
             'value'=>$request->value,
         ]);
-        return to_route('posts.index')->with('success','Post created successfully.');
+
+//        if ($request->has('image_filename')){
+//            $post->image_filename = $this->storeImage($request);
+//        }
+//        if ($request->has('is_published')){
+//            $post->is_published = 1;
+//        }
+//        else{
+//            $post->is_published = 0;
+//        }
+
+        return to_route('posts.index', $post)->with('success','Post created successfully.');
     }
 
     /**
@@ -62,8 +76,9 @@ class PostController extends Controller
         if(!$post->user->is(Auth::user())){  //if the post doesn't belong to currently authenticated user, then forbidden
             return abort(403);
         }
+        $comments = $post->comments()->paginate(5);
         $post->visit()->customInterval(now()->addSeconds(30))->withIP()->withUser(); // for post visits
-        return view('posts.show')->with('post',$post);
+        return view('posts.show', compact('post','comments'));
     }
 
     /**
@@ -74,46 +89,11 @@ class PostController extends Controller
         return view('posts.edit')->with('post',$post);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-//    public function update(Request $request)
-//    {
-////        if(!$post->user->is(Auth::user())){
-////            return abort(403);
-////        }
-//        $request->validate([
-//            'title' => 'required|unique:posts|max:255',
-//            'body' => 'required',
-//            'image_path' => 'required',  // NEED TO ADD MORE VALIDATION HERE F
-//            'value' => 'required'
-//        ]);
-//
-//        $post->title = $request->input('title');
-//        $post->body = $request->input('body');
-//        if ($request->has('image_path'))
-//        {
-//            $post->image_path = $this->storeImage($request);
-//        }
-//        $post->time_to_read = $request->input('time_to_read');
-//        if ($request->has('is_published'))
-//        {
-//            $post->is_published = 1;
-//        }
-//        else{
-//            $post->is_published = 0;
-//        }
-//        $post->priority = $request->input('priority');
-//        $post->update();
-//
-//        return to_route('posts.show');
-//    }
-
     public function update(Request $request, Post $post){
         $request->validate([
             'title' => 'required|max:255|unique:posts,title,' . $post->id,
             'summary' => 'required',
-           // 'image_path' => 'image',
+            'image_path' => 'image',
             'value' => 'required'
         ]);
         $post->update([
@@ -122,19 +102,17 @@ class PostController extends Controller
             'value'=>$request->value
         ]);
 
-//        if ($request->has('image_path'))
-//        {
-//            $post->image_path = $this->storeImage($request);
-//        }
-//        if ($request->has('is_published'))
-//        {
-//            $post->is_published = 1;
-//        }
-//        else{
-//            $post->is_published = 0;
-//        }
-//        //$post->priority = $request->input('priority');
-//        $post->update();
+        if ($request->has('image_filename')){
+            $post->image_filename = $this->storeImage($request);
+        }
+        if ($request->has('is_published')){
+            $post->is_published = 1;
+        }
+        else{
+            $post->is_published = 0;
+        }
+
+        $post->update();
         return to_route('posts.show', $post)->with('success','Post updated successfully.');
     }
 
@@ -157,20 +135,25 @@ class PostController extends Controller
      * */
     private function storeImage(Request $request)
     {
-        if ($request->hasFile('image_path'))
+        if ($request->hasFile('image_filename'))
         {
-            $originalFileName = $request->file('image_path')->getClientOriginalName();
-            $fileName = pathinfo($originalFileName, PATHINFO_FILENAME);
-            $extension = $request->file('image_path')->getClientOriginalExtension();
-            $requester = auth()->user()->email;
-            $fileName = $requester.'_'.$fileName.'_'.time().'.'.$extension;
-
-            //Upload File
-            $request->file('image_path')->storeAs('public/uploads', $fileName);
-            $url = asset('storage/uploads/'.$fileName);
-            return $url;
+            $dbName = $request->file('image_filename');
+            //Save Uploaded File
+            $image = Image::make($dbName);
+            $destinationPath = storage_path('app/public/uploads/');
+            $image->save($destinationPath.time().$dbName->getClientOriginalName());
+            /**
+             * Generate Thumbnail Image to thumbnail Storage Folder
+             */
+            $destinationPathThumbnail = storage_path('app/public/uploads/thumbnails/');
+            $image->resize(300, 225, function ($constraint) {
+               // $constraint->aspectRatio();
+            });
+            $image->save($destinationPathThumbnail.time().$dbName->getClientOriginalName());
+            return time().$dbName->getClientOriginalName();
         }
     }
+
 
 
 }

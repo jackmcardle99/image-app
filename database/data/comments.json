@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "post_id": 1,
+        "user_id": 3,
+        "body": "Cool photo!",
+        "created_at": "2023-04-02 14:44:47",
+        "updated_at": "2023-04-02 14:44:47"
+    },
+    {
+        "id": 2,
+        "post_id": 1,
+        "user_id": 4,
+        "body": "Awesome photo, reminds me of work!",
+        "created_at": "2023-04-02 14:44:47",
+        "updated_at": "2023-04-02 14:44:47"
+    },
+    {
+        "id": 3,
+        "post_id": 1,
+        "user_id": 5,
+        "body": "When did you take this?",
+        "created_at": "2023-04-02 14:44:47",
+        "updated_at": "2023-04-02 14:44:47"
+    },
+    {
+        "id": 4,
+        "post_id": 1,
+        "user_id": 6,
+        "body": "Which campus is this?",
+        "created_at": "2023-04-02 14:44:47",
+        "updated_at": "2023-04-02 14:44:47"
+    },
+    {
+        "id": 5,
+        "post_id": 1,
+        "user_id": 7,
+        "body": "What camera did you take this photo with?",
+        "created_at": "2023-04-02 14:44:47",
+        "updated_at": "2023-04-02 14:44:47"
+    },
+    {
+        "id": 6,
+        "post_id": 1,
+        "user_id": 7,
+        "body": "I remember being at this campus!!",
+        "created_at": "2023-04-02 14:45:47",
+        "updated_at": "2023-04-02 14:44:47"
+    },
+    {
+        "id": 7,
+        "post_id": 2,
+        "user_id": 4,
+        "body": "Good quality photo, wish i could capture photos like this 📸",
+        "created_at": "2023-04-02 14:44:47",
+        "updated_at": "2023-04-02 14:44:47"
+    }
+]

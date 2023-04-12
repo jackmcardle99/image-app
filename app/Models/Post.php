@@ -22,7 +22,7 @@ class Post extends Model implements CanVisit
         'user_id',
         'title',
         'summary',
-        'image_path',
+        'image_filename',
         'is_published',
         'value',
         'created_at',

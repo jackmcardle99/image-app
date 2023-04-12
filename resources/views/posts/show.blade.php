@@ -90,7 +90,7 @@
                 </div>
                 <p class="mt-6 whitespace-pre-wrap">{!! ($post->summary) !!}</p>
                 <div class="mt-3">
-                    <img src="{{$post->image_path}}" alt="image url: {{$post->image_path}}">
+                    <img src="{{url('storage/uploads/'.$post->image_filename)}}" alt="image url: {{$post->image_filename}}" ">
                 </div>
                 <br>
 
@@ -126,21 +126,21 @@
 
                             {{--    COMMENTS SECTION    --}}
     <div class="py-12">
-        @forelse($post->comments->reverse() as $comment) {{-- reverse() because we want comments to display descending--}}
-        <!-- component -->
+        {{$comments->count()}}
+        @forelse($comments as $comment)
         <div class="flex items-center justify-center dark:bg-gray-800 mb-5">
-            <figure class="w-1/2 md:flex bg-slate-200 rounded-xl p-8 md:p-0 dark:bg-slate-800">
-                <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+            <figure class="w-1/2 md:flex bg-slate-200 rounded-xl p-4 md:p-8 md:p-0 dark:bg-slate-800">
+                <div class="md:pt-6 md:p-8 text-center md:text-left space-y-4">
                     <blockquote>
-                        <p class="text-lg font-medium break-all">
+                        <p class="md:text-lg text-sm font-medium break-all">
                             "{{$comment->body}}"
                         </p>
                     </blockquote>
-                    <figcaption class="font-medium">
+                    <figcaption class="md:font-medium">
                         <div class="text-sky-500 dark:text-sky-400">
                             {{$comment->user->name}}
                         </div>
-                        <div class="text-slate-700 dark:text-slate-500">
+                        <div class="sd:text-sm text-slate-700 dark:text-slate-500">
                             {{$comment->created_at->diffForHumans()}}
                         </div>
                     </figcaption>
@@ -153,28 +153,8 @@
             </div>
 
         @endforelse
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            {{$comments->links()}}
+        </div>
     </div>
-
-{{--        <div class="mx-auto max-w-4xl sm:px-6 lg:px-8">--}}
-{{--            <form class="" method="post" action="{{ route('comments.store',$post)}}">--}}
-{{--                @method('post')--}}
-{{--                @csrf--}}
-{{--                <div>--}}
-{{--                    <textarea class="w-1/2 h-1/3 border-r" placeholder="Type comment here..." name="body"></textarea>--}}
-{{--                    <input type="hidden" name="post_id"--}}
-{{--                           value="{{$post->id}}"--}}
-{{--                    />--}}
-
-{{--                </div>--}}
-{{--                <div>--}}
-{{--                    <button type="submit" class="ml-auto mx-6 h-10 px-6 font-semibold rounded-md bg-black text-white">--}}
-{{--                        Add Comment--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--            </form>--}}
-
-{{--                    --}}{{-- Including the file below displays the comment display view --}}
-{{--            @include('comments.commentsDisplay', ['comments' => $post->comments, 'post_id' => $post->id])--}}
-{{--        </div>--}}
-{{--    </div>--}}
 </x-app-layout>

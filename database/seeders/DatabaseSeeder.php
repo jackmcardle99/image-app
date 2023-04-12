@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             CategorySeederJSON::class, // seeding categories
             PostSeederJSON::class, // seeding posts
             PostsVisitedSeeder::class, // seeding post views
-            CategoryPostSeeder::class
+            CategoryPostSeeder::class,
+            CommentsSeederJSON::class
         ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }

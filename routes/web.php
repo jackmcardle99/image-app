@@ -30,6 +30,10 @@ Route::get('posts', function () {
     return view('posts.index');
 })->middleware(['auth', 'verified'])->name('posts');
 
+//Route::get('hidden', function () {
+//    return view('posts.hiddenIndex');
+//})->middleware(['auth', 'verified'])->name('hidden');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,6 +49,7 @@ Route::prefix('/posts')->name('posts.')->middleware('auth')->group(function (){
     //Route::get('/{post}', [PostController::class, 'edit'])->name('edit')->withTrashed();
     Route::patch('/{post}', [PostController::class, 'update'])->name('update')->withTrashed();
     Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy')->withTrashed();
+
 });
 
 Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function (){

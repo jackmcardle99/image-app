@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->string('summary');
-            $table->string('image_path');
+            $table->string('image_filename');
             $table->boolean('is_published');
             $table->integer('value');
             $table->timestamps();

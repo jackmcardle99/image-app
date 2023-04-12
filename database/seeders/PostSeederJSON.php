@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class PostSeederJSON extends Seeder
 {
@@ -25,12 +26,32 @@ class PostSeederJSON extends Seeder
                 "user_id"=>$value->user_id,
                 "title"=>$value->title,
                 "summary"=>$value->summary,
-                "image_path"=>$value->image_path,
+                "image_filename"=>$value->image_filename,
                 "is_published"=>$value->is_published,
                 "value"=>$value->value,
                 "created_at"=>$value->created_at,
                 "updated_at"=>$value->updated_at
             ]);
+
+            // add the image to the Storage - original and thumbnail
+            $image = Image::make('database/data/images/'.$value->image_filename);
+            $originalFileName = $value->image_filename;
+            $destinationPath = storage_path('app/public/uploads/');
+            /**
+             * Load Image to Storage Folder
+             */
+            $image->save($destinationPath.$originalFileName);
+            /**
+             * Generate Thumbnail Image to thumbnail Storage Folder
+             */
+            $destinationPathThumbnail = storage_path('app/public/uploads/thumbnails/');
+            $image->resize(300, 225, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $image->save($destinationPathThumbnail.$originalFileName);
+
         }
+
+
     }
 }
