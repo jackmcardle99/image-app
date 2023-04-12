@@ -7,15 +7,16 @@
 
     <div class="py-12">
         <div class="dark:bg-gray-900 flex-auto flex space-x-4 justify-center">
-            <button class="mt-6 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+            <button class="mt-6 inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-800 hover:bg-gray-700
+                            border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest
                             active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
                             disabled:opacity-25 transition ease-in-out duration-150">Create Category</button>
     </div>
-        <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @forelse($categories as $category)
-            <div class=" my-6 p-6 bg-white border-b border-gray-200 shadow-sm rounded-md sm:rounded-lg">
-                <h2 class="font-bold text-2xl">
+            <div class="dark:bg-gray-800 my-6 p-6 bg-white border-b border-gray-200 dark:border-gray-700 shadow-sm rounded-md sm:rounded-lg">
+                <h2 class="font-bold text-2xl dark:text-slate-300">
                     {{ $category->topic }}
                 </h2>
 

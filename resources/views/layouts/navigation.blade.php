@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="dark:bg-slate-800 bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="dark:bg-slate-800 bg-white border-b border-gray-100 dark:border-slate-600">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -13,13 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
-                        {{ __('Posts') }}
+                        <p class="dark:text-slate-100">{{ __('Posts') }}</p>
                     </x-nav-link>
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
-                        {{ __('Categories') }}
+                        <p class="dark:text-slate-100">{{ __('Categories') }}</p>
                     </x-nav-link>
                     <x-nav-link :href="route('trashed.index')" :active="request()->routeIs('trashed.index')">
-                        {{ __('Trash') }}
+                        <p class="dark:text-slate-100">{{ __('Trash') }}</p>
                     </x-nav-link>
                 </div>
             </div>

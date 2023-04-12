@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if (session('success'))
                 <div
@@ -125,7 +125,7 @@
         </div>
 
                             {{--    COMMENTS SECTION    --}}
-    <div class="py-12">
+    <div class="py-12 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
         {{$comments->count()}}
         @forelse($comments as $comment)
         <div class="flex items-center justify-center dark:bg-gray-800 mb-5">
