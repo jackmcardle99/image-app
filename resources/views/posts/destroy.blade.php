@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
         <div class="dark:bg-gray-900 flex-auto flex space-x-4 justify-center">
             <button class="h-10 px-6 font-semibold rounded-md bg-teal-400 text-white" type="submit">
                 +
@@ -20,7 +20,7 @@
             </button>
 
         </div>
-        <div class=" max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class=" max-w-7xl mx-auto px-6 lg:px-8">
             {{--            @if(request()->routeIs('notes.index'))--}}
             {{$posts->links()}}
             @forelse($posts as $post)

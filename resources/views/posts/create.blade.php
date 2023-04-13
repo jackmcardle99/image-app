@@ -9,7 +9,7 @@
 
     <div class="py-12">
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="pb-8">
                 @if ($errors->any())
                     <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">

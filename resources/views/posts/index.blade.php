@@ -1,12 +1,8 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl dark:text-slate-100 text-gray-800 leading-tight">
-            {{ __('Posts') }}
-        </h2>
-    </x-slot>
+
 
     @can('is_user')
-    <div class="py-12 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         @if (session('success'))
             <div class="flashmessage alert flex flex-row items-center bg-green-200 p-5 rounded border-b-2 border-green-300 py-5 mb-4">
@@ -34,7 +30,7 @@
             @if(request()->routeIs('posts.index'))
                 <a href="{{route('posts.create')}}" class="btn-link">
                     <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            dark:bg-gray-700 dark:hover:bg-gray-800
+                            dark:bg-gray-700 dark:hover:bg-[#141a1c]
                             rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
                             active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
                             disabled:opacity-25 transition ease-in-out duration-150">+ Create Post
@@ -43,52 +39,88 @@
             @endif
 
                 <a href="{{url('/search')}}">
-                <button class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-800 border border-transparent
+                <button class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-700 dark:hover:bg-[#141a1c] border border-transparent
                             rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
                             active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
                             disabled:opacity-25 transition ease-in-out duration-150">Search
                 </button>
                 </a>
     </div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        {{-- THIS IS THE PROBLEM WITH PADDING--}}
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
             {{$posts->links()}}
             <br>
-
+            <div class="mt-16 ">
             <div class="grid md:grid-cols-3 sm:grid-cols-1 gap-4">
             @forelse($posts as $post)
-            <a href="{{route('posts.show',$post)}}">
-            <div class=" md:hover:scale-105 scale-100 transform-gpu dark:bg-slate-800 my-6 p-6 bg-white border-b border-gray-200 dark:border-gray-800 shadow-sm rounded-md sm:rounded-lg">
-                <h2 class="dark:text-slate-300 font-bold text-2xl">
-                    {{Str::limit($post->title,25)}}
-                </h2>
+            <a href="{{route('posts.show',$post)}}" class="group relative block bg-black rounded-lg">
+                <img
+                    src="{{url('storage/uploads/thumbnails/'.$post->image_filename)}}"
+                    class="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50 rounded-lg"
+                />
 
-                <br>
-                    <span> <img class="ml-6" src="{{url('storage/uploads/thumbnails/'.$post->image_filename)}}" width="300" height="225"> </span><br>
-                <p class="dark:text-slate-300 line-clamp-1">
-                    {{--{{Str::limit($post->summary, 40)}}--}}
-                    {!! html_entity_decode(Str::limit($post->summary, 40)) !!}
-                </p>
-                <br>
-                <div class="flex space-x-2">
-                    <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                    width="24" height="24"
-                    viewBox="0 0 24 24">
-                    <path d="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></path>
-                    </svg>
-                    <p class="dark:text-slate-200"><strong>{{ Auth::user()->name }}</strong></p>
+                <div class="relative p-4 sm:p-6 lg:p-8">
+                    <div class="flex inline-flex">
+                        <p class="text-sm font-semibold uppercase tracking-widest text-pink-500">
+                        {{$post->user->name}}
+                        </p>
+                        <div class="absolute inline-flex right-1 mr-5">
+                            <p class="text-sm font-semibold uppercase tracking-widest text-slate-200">
+                                £{{$post->value}}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <p class="text-xl font-bold text-white sm:text-2xl">{{$post->title}}</p>
+
+                    <div class="mt-32 sm:mt-48 lg:mt-64">
+                        <div
+                            class="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
+                        >
+                            <p class="text-sm text-white">
+                                {!! html_entity_decode(Str::limit($post->summary, 40)) !!}
+                            </p>
+                            <p class="text-pink-500 block mt-4 text-sm">Views: {{$post->visit_count_total}}</p>
+                            <p class="text-pink-500 block  text-sm">Updated: {{$post->updated_at->diffForHumans()}}</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="dark:text-slate-300 opacity-70 pt-4 italic text-gray-500">
-                    Categories:
-                    @forelse($post->categories as $category)
-                        {{$category->topic}}@if (!$loop->last),@endif
-                    @empty
-                        <span>No categories defined for this note.</span>
-                    @endforelse
-                </p>
-                <span class="text-slate-300 block mt-4 text-sm opacity-70">Views: {{$post->visit_count_total}}</span>
-                <span class="text-slate-300 block  text-sm opacity-70">Updated: {{$post->updated_at->diffForHumans()}}</span>
-            </div>
             </a>
+
+{{--                    <a href="{{route('posts.show',$post)}}">--}}
+{{--            <div class=" md:hover:scale-105 scale-100  transform-gpu dark:bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-gray-900 to-gray-600 bg-gradient-to-rmy-6 p-6 bg-white  dark:border-black  rounded-md sm:rounded-lg">--}}
+{{--                <h2 class="dark:text-slate-300 font-bold text-2xl">--}}
+{{--                    {{Str::limit($post->title,25)}}--}}
+{{--                </h2>--}}
+
+{{--                <br>--}}
+{{--                    <span> <img class="ml-6" src="{{url('storage/uploads/thumbnails/'.$post->image_filename)}}" width="300" height="225"> </span><br>--}}
+{{--                <p class="dark:text-slate-300 line-clamp-1">--}}
+{{--                    --}}{{--{{Str::limit($post->summary, 40)}}--}}
+{{--                    {!! html_entity_decode(Str::limit($post->summary, 40)) !!}--}}
+{{--                </p>--}}
+{{--                <br>--}}
+{{--                <div class="flex space-x-2">--}}
+{{--                    <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"--}}
+{{--                    width="24" height="24"--}}
+{{--                    viewBox="0 0 24 24">--}}
+{{--                    <path d="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></path>--}}
+{{--                    </svg>--}}
+{{--                    <p class="dark:text-slate-200"><strong>{{ Auth::user()->name }}</strong></p>--}}
+{{--                </div>--}}
+{{--                <p class="dark:text-slate-300 opacity-70 pt-4 italic text-gray-500">--}}
+{{--                    Categories:--}}
+{{--                    @forelse($post->categories as $category)--}}
+{{--                        {{$category->topic}}@if (!$loop->last),@endif--}}
+{{--                    @empty--}}
+{{--                        <span>No categories defined for this note.</span>--}}
+{{--                    @endforelse--}}
+{{--                </p>--}}
+{{--                <span class="text-slate-300 block mt-4 text-sm opacity-70">Views: {{$post->visit_count_total}}</span>--}}
+{{--                <span class="text-slate-300 block  text-sm opacity-70">Updated: {{$post->updated_at->diffForHumans()}}</span>--}}
+{{--            </div>--}}
+{{--            </a>--}}
             @empty
                 <div class=" my-6 p-6 mt-6">
                     <p class="text-center mb-10 font-semibold">Just empty space...</p>
@@ -96,6 +128,7 @@
                 </div>
             @endforelse
             </div><br>
+            </div>
             {{$posts->links()}}
         </div>
     </div>

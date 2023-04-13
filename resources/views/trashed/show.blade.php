@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="py-12 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex">
                 <p class="opacity-70 sm:px-6 py-2">
                     <strong>Author: </strong> {{ Auth::user()->name }}

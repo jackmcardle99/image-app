@@ -76,7 +76,7 @@ class PostController extends Controller
         if(!$post->user->is(Auth::user())){  //if the post doesn't belong to currently authenticated user, then forbidden
             return abort(403);
         }
-        $comments = $post->comments()->paginate(5);
+        $comments = $post->comments()->latest('created_at')->paginate(5);
         $post->visit()->customInterval(now()->addSeconds(30))->withIP()->withUser(); // for post visits
         return view('posts.show', compact('post','comments'));
     }
@@ -146,8 +146,8 @@ class PostController extends Controller
              * Generate Thumbnail Image to thumbnail Storage Folder
              */
             $destinationPathThumbnail = storage_path('app/public/uploads/thumbnails/');
-            $image->resize(300, 225, function ($constraint) {
-               // $constraint->aspectRatio();
+            $image->resize(1000, 750, function ($constraint) {
+                $constraint->aspectRatio();
             });
             $image->save($destinationPathThumbnail.time().$dbName->getClientOriginalName());
             return time().$dbName->getClientOriginalName();
