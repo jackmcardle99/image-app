@@ -31,38 +31,39 @@
                 </div>
             @endif
             <div class="flex">
-                <a href="{{ url()->previous() }}">
+                <a href="{{ route('posts.index') }}">
                     <svg class="h-7 " viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
-                            <path fill="#000000" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
-                            <path fill="#000000"
+                            <path fill="#008989" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                            <path fill="#008989"
                                   d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
                         </g>
                     </svg>
                 </a>
-                <p class="opacity-70 sm:px-6 py-1">
-                    <strong>Author: </strong> {{ Auth::user()->name }}
+                <p class="dark:text-slate-200 opacity-70 sm:px-6 py-1">
+                    <strong>Author: </strong> {{ $post->user->name }}
                 </p>
-                <p class="opacity-70 sm:px-6 py-1">
+                <p class="dark:text-slate-200 opacity-70 sm:px-6 py-1">
                     <strong>Created: </strong> {{$post->created_at->diffForHumans()}}
                 </p>
-                <p class="opacity-70 sm:px-6 py-1">
+                <p class="dark:text-slate-200 opacity-70 sm:px-6 py-1">
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
 
 
-                <form action="{{route('comments.index',$post->id)}}" method="post" class="ml-auto mr-5">
-                    @method('get')
-                    @csrf
-                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Comments
-                    </button>
-                </form>
-                <form action="{{route('posts.edit',$post)}}" method="post" class="mr-5">
+{{--                <form action="{{route('comments.index',$post->id)}}" method="post" class="ml-auto mr-5">--}}
+{{--                    @method('get')--}}
+{{--                    @csrf--}}
+{{--                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent--}}
+{{--                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700--}}
+{{--                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300--}}
+{{--                            disabled:opacity-25 transition ease-in-out duration-150">Comments--}}
+{{--                    </button>--}}
+{{--                </form>--}}
+                @if(Auth::user()->id == $post->user_id)
+                <form action="{{route('posts.edit',$post)}}" method="post" class="ml-auto mr-5">
                     @method('get')
                     @csrf
                     <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
@@ -77,24 +78,45 @@
                     <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
                             rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
                             active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Delete
+                            disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
+                             ' to trash, are you sure you would like to perform this action?')">Delete
                     </button>
                     {{--                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you would like to delete this post?')">Delete</button>--}}
                 </form>
+                @endif
+
             </div>
 
-            <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg dark:bg-gray-800">
+            <div class="my-6 p-6 bg-white border-b border-gray-200 dark:border-gray-700 shadow-sm sm:rounded-lg dark:bg-gray-800">
                 <div class="flex">
-                    <h2 class="font-bold text-4xl">{{$post->title}}</h2><br>
-                    <p class="ml-auto text-3xl  font-semibold text-slate-500">£{{ $post->value.".00" }}</p>
+                    <h2 class="dark:text-slate-200 font-bold text-4xl">{{$post->title}}</h2><br>
+                    <p class="ml-auto text-3xl  font-semibold text-pink-500">£{{ $post->value.".00" }}</p>
                 </div>
-                <p class="mt-6 whitespace-pre-wrap">{!! ($post->summary) !!}</p>
+                <p class="dark:text-slate-400 mt-6 whitespace-pre-wrap">{!! ($post->summary) !!}</p>
                 <div class="mt-3">
                     <img src="{{url('storage/uploads/'.$post->image_filename)}}" alt="image url: {{$post->image_filename}}" ">
                 </div>
                 <br>
-
+                <form action="{{route('share',$post)}}" method="post">
+                    @csrf
+                    Send to: <select name="user" id="user">
+                        @foreach($users as $user)
+                            <option value="{{$user->id}}" {{Auth::id() == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                    <button type="submit">Send</button>
+                </form>
             </div>
+                @if ($errors->any())
+                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                        Something went Wrong...
+                    </div>
+                    <ul class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 mb-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
         </div>
 
                     {{--       ENTER COMMENT SECTION    --}}
@@ -123,12 +145,14 @@
         </form>
 
         <div class="flex justify-center items-center mt-10 mb-6">
+
         <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion ({{$comments->total()}})</h2>
         </div>
         @forelse($comments as $comment)
         <section class=" py-8 lg:py-5">
+
             <div class="max-w-2xl mx-auto px-4">
-                <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-[#141a1c]">
+                <article class="p-6 mb-6 text-base bg-white rounded-lg bg-slate-300 dark:bg-[#141a1c]">
                     <footer class="flex justify-between items-center mb-2">
                         <div class="flex items-center">
                             <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">{{$comment->user->name}}</p>
@@ -165,7 +189,7 @@
                             </ul>
                         </div>
                     </footer>
-                    <p class="text-gray-500 dark:text-gray-400">{{$comment->body}}</p>
+                    <p class="text-gray-700 dark:text-gray-400">{{$comment->body}}</p>
                     <div class="flex items-center mt-4 space-x-4">
                         <button type="button"
                                 class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">

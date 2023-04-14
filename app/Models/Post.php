@@ -29,6 +29,21 @@ class Post extends Model implements CanVisit
         'updated_at'
     ];
 
+    public function shouldBeSearchable():bool{
+        return $this->is_published === 1;
+    }
+
+    public function searchableAs():string{
+        return 'posts';
+    }
+
+    public function toSearchableArray(){
+        return [
+            'title' => $this->title,
+            'summary' => $this->summary,
+        ];
+    }
+
     public function user(){ // for defining relationship in db
         return $this->belongsTo(User::class);
     }
@@ -46,6 +61,7 @@ class Post extends Model implements CanVisit
 
         static::deleting(function ($post){
             $post->categories()->detach();
+//            $post->comments()->detach();
         });
     }
     //this code changes the url

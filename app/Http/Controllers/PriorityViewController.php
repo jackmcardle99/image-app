@@ -17,7 +17,7 @@ class PriorityViewController extends Controller
         ])
         ->limit(4)
         ->latest('updated_at')
-        //->popularToday()
+        ->withTotalVisitCount()
         ->get();
 
         return view('welcome',compact('posts', 'total_visits_to_home_page'));

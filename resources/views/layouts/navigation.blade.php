@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="dark:bg-[#141a1c] bg-white border-b border-gray-100 dark:border-slate-600">
+<nav x-data="switchTheme() { open: false }" class="dark:bg-[#141a1c] bg-white border-b border-gray-100 dark:border-slate-600">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -21,6 +21,14 @@
                     <x-nav-link :href="route('trashed.index')" :active="request()->routeIs('trashed.index')">
                         <p class="dark:text-slate-100">{{ __('Trash') }}</p>
                     </x-nav-link>
+
+                    <button @click="darkMode = !darkMode">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6 p-1 text-gray-100 transition bg-gray-700 rounded-full cursor-pointer dark:hover:bg-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                        </svg>
+                        <span class="sr-only">light</span>
+                    </button>
                 </div>
             </div>
 
@@ -30,6 +38,7 @@
                     <x-slot name="trigger" class="dark:bg-[#141a1c]">
                         <button class="dark:bg-[#141a1c] inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div><p class="dark:text-slate-200">{{ Auth::user()->name }}</p></div>
+                            <div></div>
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -70,10 +79,16 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden dark:bg-[#141a1c] ">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden  dark:bg-[#141a1c] ">
         <div class="pt-2 pb-3 space-y-1 ">
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts')">
-                {{ __('Index') }}
+                {{ __('Posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories')">
+                {{ __('Categories') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('trashed.index')" :active="request()->routeIs('trashed')">
+                {{ __('Trash') }}
             </x-responsive-nav-link>
         </div>
 

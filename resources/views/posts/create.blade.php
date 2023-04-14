@@ -63,8 +63,17 @@
                     <br>
                     <label for="is_published">Viewable?</label>
 
+                    <input id="is_published" type="checkbox" name="is_published">
 
-                    <input id="is_published" type="checkbox" name="is_published" value="1">
+                    <fieldset>
+                        <legend>Select categories</legend>
+                        @foreach($categories as $category)
+                            <div>
+                                <input type="checkbox" name="{{$category->topic}}"/>
+                                <label for="{{$category->topic}}">{{$category->topic}}</label>
+                            </div>
+                        @endforeach
+                    </fieldset>
 
 
                     <br>

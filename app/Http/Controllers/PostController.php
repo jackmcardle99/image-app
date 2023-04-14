@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
@@ -31,7 +34,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create')->with('categories',$categories);
     }
 
     /**
@@ -42,10 +46,9 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|unique:posts|max:30',
             'summary' => 'required|max:250',
-            'image_filename' => 'image|required',
+            'image_filename' => 'image|required|mimes:jpeg,png,jpg,gif',
             'value' => 'required'
         ]);
-
 
         $post = Auth::user()->posts()->create([
             'title'=>$request->title,
@@ -54,6 +57,11 @@ class PostController extends Controller
             'is_published'=>$request->is_published === 'on' ?  '1' : '0',
             'value'=>$request->value,
         ]);
+
+//        DB::table('category_post')->insert([
+//            ['category_id'=>1, 'post_id'=>],
+//        ]);
+
 
 //        if ($request->has('image_filename')){
 //            $post->image_filename = $this->storeImage($request);
@@ -73,12 +81,13 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if(!$post->user->is(Auth::user())){  //if the post doesn't belong to currently authenticated user, then forbidden
-            return abort(403);
-        }
+//        if(!$post->user->is(Auth::user()) || ){  //if the post doesn't belong to currently authenticated user, then forbidden
+//            return abort(403);
+//        }
+        $users = User::all();
         $comments = $post->comments()->latest('created_at')->paginate(5);
         $post->visit()->customInterval(now()->addSeconds(30))->withIP()->withUser(); // for post visits
-        return view('posts.show', compact('post','comments'));
+        return view('posts.show', compact('post','comments','users'));
     }
 
     /**
@@ -93,7 +102,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:255|unique:posts,title,' . $post->id,
             'summary' => 'required',
-            'image_path' => 'image',
+            'image_path' => 'nullable|sometimes|image',
             'value' => 'required'
         ]);
         $post->update([
@@ -126,6 +135,7 @@ class PostController extends Controller
         }
 
         $post->delete();
+
 
         return to_route('posts.index')->with('success', 'Post deleted successfully');
     }

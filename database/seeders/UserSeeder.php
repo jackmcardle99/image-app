@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([  //creating my account
             'name' => 'Jack McArdle',
-            'email' => 'jack@abc.com',
+            'email' => 'McArdle-J9@ulster.ac.uk',
             'password' => Hash::make('password1234'),
             'email_verified_at' => now(),
         ]);

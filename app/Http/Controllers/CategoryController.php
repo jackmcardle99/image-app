@@ -22,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -30,7 +30,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|unique:posts|max:30',
+            'summary' => 'required|max:250',
+            'image_filename' => 'image|required',
+            'value' => 'required'
+        ]);
+
+
+        $category = Auth::user()->categories()->create([
+            'topic'=>$request->topic,
+        ]);
+
+        return to_route('categories.index', $category)->with('success','Category created successfully.');
     }
 
     /**

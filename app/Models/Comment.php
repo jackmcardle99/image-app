@@ -26,4 +26,12 @@ class Comment extends Model
         return $this->belongsTo(Post::class);
     }
 
+    public static function boot(){
+        parent::boot();
+
+        static::deleting(function ($comment){
+            $comment->posts()->detach();
+        });
+    }
+
 }

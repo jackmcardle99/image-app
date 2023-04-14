@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ darkMode: localStorage.getItem('dark') === 'true'} "
+      x-init="$watch('darkMode', val => localStorage.setItem('dark', val))"
+      x-bind:class="{ 'dark': darkMode }">  {{-- themes may suffer from FOIT (flash of incorrect them https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/--}}
+                                            {{-- could resolve but would take up too much time--}}
     <head bg-gradient-to-tr from-indigo-900 to-pink-900>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,9 +19,25 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script>if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
+            } else {
+                document.documentElement.classList.remove('dark')
+            }
+
+            // Whenever the user explicitly chooses light mode
+            localStorage.theme = 'light'
+
+            // Whenever the user explicitly chooses dark mode
+            localStorage.theme = 'dark'
+
+            // Whenever the user explicitly chooses to respect the OS preference
+            localStorage.removeItem('theme')</script>
 
     </head>
-    <body class="antialiased font-sans antialiased dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
+    <body
+           class="antialiased font-sans antialiased bg-slate-100 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
+
         <div class="min-h-screen dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
             @include('layouts.navigation')
 

@@ -16,6 +16,7 @@ class TrashedPostController extends Controller
         ])
         ->latest('updated_at')
         ->onlyTrashed()
+        ->withTotalVisitCount()
         ->paginate(5);
         return view('trashed.index')->with('posts',$posts);
     }
@@ -35,34 +36,25 @@ class TrashedPostController extends Controller
         return to_route('trashed.index')->with('success','Post restored successfully');
     }
 
-//    public function destroy(Post $post){
-//        if(!$post->user->is(Auth::user())){
-//            return abort(403);
-//        }
-//
-//        //$post->categories()->detatch();
-//        $post->forceDelete();
-//
-//        return to_route('trashed.index')->with('success','Post permanently deleted successfully');
-//    }
-
     public function destroy(Post $post) {
-        if(!$post->user->is(Auth::user())) {
+        if(!$post->user->is(Auth::user())){
             return abort(403);
-        }$destinationPath = 'public/uploads/';
+        }
+
+        $destinationPath = 'public/uploads/';
         $image = $destinationPath.$post->image_filename;
         $thumbnail = $destinationPath.'thumbnails/'.$post->image_filename;
-        if(Storage::exists($image))
-        {
+
+        if(Storage::exists($image)){
             Storage::delete($image);
         }
-        if(Storage::exists($thumbnail))
-        {
+        if(Storage::exists($thumbnail)){
             Storage::delete($thumbnail);
         }
         $post->categories()->detach();
+        $post->comments()->delete();
         $post->forceDelete();
-        return to_route('posts.index')->with('success','Deleted successfully');
+        return to_route('posts.index')->with('success','Permanently deleted successfully');
     }
 
 

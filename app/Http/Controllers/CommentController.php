@@ -26,7 +26,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-      //return view('comments.create');
+      return view('comments.create');
     }
 
     /**
@@ -36,7 +36,7 @@ class CommentController extends Controller
     {
         //dump($request->post_id);
         $request->validate([
-            'body'=>'required',
+            'body'=>'required|max:255',
         ]);
 
         $input = $request->all();
@@ -46,7 +46,7 @@ class CommentController extends Controller
 
         Comment::create($input);
 
-        return back();
+        return back()->with('success','Comment posted successfully.');
     }
 
     /**
@@ -76,8 +76,8 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
     }
 }
