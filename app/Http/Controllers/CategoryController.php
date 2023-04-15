@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,16 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('topic','asc')->with('posts')->get(); // with('posts') is eager loading
-        return view('categories.index', compact('categories'));
+
+        $count = Cache::remember(
+            'count.categories.' . $categories,
+            now()->addSeconds(120),
+            function () use ($categories){
+                return Category::with('posts')->count();
+            }
+        );
+
+        return view('categories.index', compact('categories','count'));
     }
 
     /**
@@ -41,6 +52,8 @@ class CategoryController extends Controller
         $category = Auth::user()->categories()->create([
             'topic'=>$request->topic,
         ]);
+
+
 
         return to_route('categories.index', $category)->with('success','Category created successfully.');
     }

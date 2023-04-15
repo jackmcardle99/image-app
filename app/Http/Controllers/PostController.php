@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
@@ -26,7 +27,14 @@ class PostController extends Controller
         ->withTotalVisitCount()
         ->paginate(6);
 
-        return view('posts.index')->with('posts',$posts);
+        $count = Cache::remember(
+            'count.posts.' . $userID,
+            now()->addSeconds(60),
+            function () use ($posts){
+                return Post::count();
+            }
+        );
+        return view('posts.index',['posts'=>$posts, 'count' =>$count]);
     }
 
     /**

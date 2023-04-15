@@ -10,6 +10,8 @@ use App\Http\Controllers\ShareEmailController;
 use App\Http\Controllers\TrashedPostController;
 use App\Mail\SendPostMail;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,25 +28,34 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
 
 Route::get('/', PriorityViewController::class);
-//Route::post('/posts', ShareEmailController::class);
+//Route::post('/posts/{post}', ShareEmailController::class)->name('email');
+//Route::get('/email/verify', function () {
+//    return view('auth.verify-email');
+//})->middleware('auth')->name('verification.notice');
+
+//Route::get('email',function(Post $post, User $receiver){
+//   return new SendPostMail($post, $receiver);
+//})->name('email');
+//
+//Route::get('/greeting',function(){
+//    return 'Hello world';
+//});
+//Route::post('/post/{post}', [ShareEmailController::class, 'email']);
+////Route::post('share/{post}', ShareEmailController::class)->name('share');
 
 Route::get('posts', function () {
     return view('posts.index');
 })->middleware(['auth', 'verified'])->name('posts');
 
-//Route::get('hidden', function () {
-//    return view('posts.hiddenIndex');
-//})->middleware(['auth', 'verified'])->name('hidden');
 
-//Route::get('/email', function (){
-//    return new SendPostMail();
+
+
+//Route::get('send-email', function(){
+//    return
 //});
-Route::post('share/{post}', ShareEmailController::class)->name('share');
+
 
 
 
@@ -62,6 +73,7 @@ Route::prefix('/posts')->name('posts.')->middleware('auth')->group(function (){
     //Route::get('/{post}', [PostController::class, 'edit'])->name('edit')->withTrashed();
     Route::patch('/{post}', [PostController::class, 'update'])->name('update')->withTrashed();
     Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy')->withTrashed();
+
     //Route::post('/{post}/share', [ShareEmailController::class, 'share'])->name('posts.share');
 });
 
@@ -88,7 +100,7 @@ Route::prefix('/posts/{post}/comments')->name('comments.')->middleware('auth')->
     Route::post('/', [CommentController::class, 'store'])->name('store');
    // Route::put('/{post}', [CommentController::class, 'update'])->name('update');
     //Route::post('/{post}', [CommentController::class, 'store'])->name('store');
-    //Route::delete('/{post}', [CommentController::class, 'destroy'])->name('destroy');
+    Route::delete('/', [CommentController::class, 'destroy'])->name('destroy');
 //    Route::post('/{post}', ShareEmailController::class)->name('share');
 });
 
@@ -99,6 +111,8 @@ Route::middleware('auth')->group(function () { // with this route, only admins c
 });
 
 Route::get('/search', SearchController::class);
+//Route::post('/post/email', ShareEmailController::class);
+
 
 
 require __DIR__.'/auth.php';

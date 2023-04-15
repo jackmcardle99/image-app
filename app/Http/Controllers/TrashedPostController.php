@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class TrashedPostController extends Controller
@@ -18,7 +19,20 @@ class TrashedPostController extends Controller
         ->onlyTrashed()
         ->withTotalVisitCount()
         ->paginate(5);
-        return view('trashed.index')->with('posts',$posts);
+
+        $count = Cache::remember(
+            'count.trash.' . $userID,
+            now()->addSeconds(60),
+            function () use ($userID){
+                return Post::where([
+                    ['user_id', $userID]
+                ])
+                    ->onlyTrashed()
+                    ->count();
+            }
+        );
+
+        return view('trashed.index', compact('posts','count'));
     }
 
     public function show(Post $post){

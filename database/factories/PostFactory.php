@@ -20,8 +20,8 @@ class PostFactory extends Factory
             'user_id' => $this->faker->numberBetween(1,1),
             'title' => $this->faker->unique()->sentence,
             'summary' => $this->faker->text(),
-            'image_path' => $this->faker->imageUrl(640,480),
-            'is_published' => $this->faker->boolean(50),
+            'image_filename' => $this->faker->image('storage/app/public/uploads',640,480),
+            'is_published' => $this->faker->boolean(70),
             'value' => $this->faker->numberBetween(1,100),
         ];
     }

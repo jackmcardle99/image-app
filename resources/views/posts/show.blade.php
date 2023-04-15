@@ -7,6 +7,16 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            @if ($errors->any())
+                <div class="flashmessage alert bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                    Something went Wrong...
+                </div>
+                <ul class="flashmessage alert border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 mb-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
             @if (session('success'))
                 <div
                     class="flashmessage alert flex flex-row items-center bg-green-200 p-5 rounded border-b-2 border-green-300 py-5 mb-4">
@@ -97,26 +107,18 @@
                     <img src="{{url('storage/uploads/'.$post->image_filename)}}" alt="image url: {{$post->image_filename}}" ">
                 </div>
                 <br>
-                <form action="{{route('share',$post)}}" method="post">
-                    @csrf
-                    Send to: <select name="user" id="user">
-                        @foreach($users as $user)
-                            <option value="{{$user->id}}" {{Auth::id() == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>
-                        @endforeach
-                    </select>
-                    <button type="submit">Send</button>
-                </form>
+
+{{--                <form action="{{route('email', $post)}}" method="post">--}}
+{{--                    @csrf--}}
+{{--                    Send to: <select name="user" id="user">--}}
+{{--                        @foreach($users as $user)--}}
+{{--                            <option value="{{$user->id}}" {{Auth::id() == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+{{--                    <button type="submit">Send</button>--}}
+{{--                </form>--}}
             </div>
-                @if ($errors->any())
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Something went Wrong...
-                    </div>
-                    <ul class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 mb-5">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
+
         </div>
 
                     {{--       ENTER COMMENT SECTION    --}}
@@ -158,112 +160,18 @@
                             <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">{{$comment->user->name}}</p>
                             <p class="text-sm text-gray-600 dark:text-gray-400">{{$comment->created_at->diffForHumans()}}</p>
                         </div>
-                        <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
-                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                type="button">
-                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                </path>
-                            </svg>
-                            <span class="sr-only">Comment settings</span>
-                        </button>
-                        <!-- Dropdown menu -->
-                        <div id="dropdownComment1"
-                             class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                aria-labelledby="dropdownMenuIconHorizontalButton">
-                                <li>
-                                    <a href="#"
-                                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                                </li>
-                            </ul>
-                        </div>
                     </footer>
-                    <p class="text-gray-700 dark:text-gray-400">{{$comment->body}}</p>
-                    <div class="flex items-center mt-4 space-x-4">
-                        <button type="button"
-                                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
-                            <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                            Reply
-                        </button>
-                    </div>
+                    <p class="text-gray-700 dark:text-gray-400 break-all">{{$comment->body}}</p>
                 </article>
-
-                                    {{--  THIS IS REPLY COMMENT              --}}
-
-{{--                <article class="p-6 mb-6 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">--}}
-{{--                    <footer class="flex justify-between items-center mb-2">--}}
-{{--                        <div class="flex items-center">--}}
-{{--                            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img--}}
-{{--                                    class="mr-2 w-6 h-6 rounded-full"--}}
-{{--                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"--}}
-{{--                                    alt="Jese Leos">Jese Leos</p>--}}
-{{--                            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-12"--}}
-{{--                                                                                      title="February 12th, 2022">Feb. 12, 2022</time></p>--}}
-{{--                        </div>--}}
-{{--                        <button id="dropdownComment2Button" data-dropdown-toggle="dropdownComment2"--}}
-{{--                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"--}}
-{{--                                type="button">--}}
-{{--                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path--}}
-{{--                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">--}}
-{{--                                </path>--}}
-{{--                            </svg>--}}
-{{--                            <span class="sr-only">Comment settings</span>--}}
-{{--                        </button>--}}
-{{--                        <!-- Dropdown menu -->--}}
-{{--                        <div id="dropdownComment2"--}}
-{{--                             class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">--}}
-{{--                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"--}}
-{{--                                aria-labelledby="dropdownMenuIconHorizontalButton">--}}
-{{--                                <li>--}}
-{{--                                    <a href="#"--}}
-{{--                                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a href="#"--}}
-{{--                                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a href="#"--}}
-{{--                                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-{{--                    </footer>--}}
-{{--                    <p class="text-gray-500 dark:text-gray-400">Much appreciated! Glad you liked it ☺️</p>--}}
-{{--                    <div class="flex items-center mt-4 space-x-4">--}}
-{{--                        <button type="button"--}}
-{{--                                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">--}}
-{{--                            <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>--}}
-{{--                            Reply--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                </article>--}}
             </div>
             @empty
                 <div class="flex items-center justify-center mb-5">
                     <p class="mt-5 font-semibold dark:text-slate-200 text-xl">No comments yet!</p>
                 </div>
-
             @endforelse
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 {{$comments->links()}}
             </div>
         </section>
         </div>
-
-                            {{--    COMMENTS SECTION    --}}
-
 </x-app-layout>

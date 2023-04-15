@@ -16,12 +16,12 @@ class ShareEmailController extends Controller
      */
     public function __invoke(Post $post, Request $request)
     {
-//        $user = User::findOrFail($request->user);
-//        Mail::to($user->email)
-//            ->cc(Auth::user()->email)
-//            ->send(new SendPostMail($post,$user));
-//        return to_route('posts.show',$post)->with('success','Post successfully shared via email');
-        return new SendPostMail($post,$request->user);
+        $user = User::findOrFail($request->user);
+        Mail::to($user->email)
+            ->cc(Auth::user()->email)
+            ->send(new SendPostMail($post,$user));
+        return to_route('posts.index',$post)->with('success','Post successfully shared via email');
 
+        //return new sendPostMail($post,$request->user);
     }
 }

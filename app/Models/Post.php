@@ -7,6 +7,7 @@ use Coderflex\Laravisit\Concerns\CanVisit;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
 
@@ -65,9 +66,11 @@ class Post extends Model implements CanVisit
         });
     }
     //this code changes the url
-
 //    public function getRouteKeyName(): string
 //    {
 //        return 'title';
 //    }
+
+
+
 }
