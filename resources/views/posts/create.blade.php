@@ -22,7 +22,7 @@
                     </ul>
                 @endif
             </div>
-            <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
+            <div class="my-6 p-6 bg-white dark:bg-gray-800 border-b border-gray-200 shadow-sm sm:rounded-lg">
                 <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input
@@ -43,7 +43,8 @@
                         rows="10"
                         field="text"
                         placeholder="Post description goes here..."
-                        class="w-full mt-6">{{@old('summary')}}
+                        class="w-full mt-6"
+                        >{{@old('summary')}}
                     </textarea>
 
                     <input type="file" name="image_filename" id="file-image_filename" class="mt-5 mb-5 block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400

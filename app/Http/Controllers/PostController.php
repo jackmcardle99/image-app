@@ -10,10 +10,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
+
+    public function __construct(){
+//        $this->middleware('auth')->only(['create','edit','update','destroy']);
+//        $this->middleware('can:is_admin')->only(['create','edit','update','destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -89,9 +96,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-//        if(!$post->user->is(Auth::user()) || ){  //if the post doesn't belong to currently authenticated user, then forbidden
-//            return abort(403);
-//        }
         $users = User::all();
         $comments = $post->comments()->latest('created_at')->paginate(5);
         $post->visit()->customInterval(now()->addSeconds(30))->withIP()->withUser(); // for post visits
@@ -103,6 +107,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if(!$post->user->is(Auth::user()) && !Gate::allows('is_admin')){
+            return abort(403);
+        }
         return view('posts.edit')->with('post',$post);
     }
 
@@ -130,6 +137,10 @@ class PostController extends Controller
         }
 
         $post->update();
+
+        if(Gate::allows('is_admin')){
+            return to_route('admin.index', $post)->with('success','Post updated successfully.');
+        }
         return to_route('posts.show', $post)->with('success','Post updated successfully.');
     }
 
@@ -138,12 +149,18 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        //this code allows admin to delete post, despite not owning it
+        if(Gate::allows('is_admin')){
+            $post->delete();
+            return to_route('admin.index')->with('success', 'Post deleted successfully');
+        }
+
+        // this code gives forbidden 403 error to anyone trying to access post who isnt Auth
         if(!$post->user->is(Auth::user())){
             return abort(403);
         }
 
         $post->delete();
-
 
         return to_route('posts.index')->with('success', 'Post deleted successfully');
     }

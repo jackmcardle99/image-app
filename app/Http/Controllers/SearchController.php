@@ -22,11 +22,11 @@ class SearchController extends Controller
 
         if($query = $request->get('query')){
             if ($userID = $request->get('user_id')){
-                $results = Post::search($query)->where('is_published',1)->where('user_id', $userID)->paginate(5);
+                $results = Post::search($query)->where('is_published',true)->where('user_id', $userID)->paginate(5);
             }
             else{
                 $results = Post::search($query)
-                    ->where('is_published',1)
+                    ->where('is_published',true)
                     ->paginate(5);
             }
         }

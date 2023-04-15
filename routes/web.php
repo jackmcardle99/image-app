@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
@@ -30,33 +31,10 @@ Route::get('/', function () {
 });
 
 Route::get('/', PriorityViewController::class);
-//Route::post('/posts/{post}', ShareEmailController::class)->name('email');
-//Route::get('/email/verify', function () {
-//    return view('auth.verify-email');
-//})->middleware('auth')->name('verification.notice');
-
-//Route::get('email',function(Post $post, User $receiver){
-//   return new SendPostMail($post, $receiver);
-//})->name('email');
-//
-//Route::get('/greeting',function(){
-//    return 'Hello world';
-//});
-//Route::post('/post/{post}', [ShareEmailController::class, 'email']);
-////Route::post('share/{post}', ShareEmailController::class)->name('share');
 
 Route::get('posts', function () {
     return view('posts.index');
 })->middleware(['auth', 'verified'])->name('posts');
-
-
-
-
-//Route::get('send-email', function(){
-//    return
-//});
-
-
 
 
 Route::middleware('auth')->group(function () {
@@ -65,6 +43,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/posts', PostController::class);
     Route::resource('/categories', CategoryController::class);
+    Route::resource('/admin', AdminController::class);
+    //Route::get('/admin',[AdminController::class])->name('admin.index');
+});
+
+Route::prefix('/admin')->name('admin.')->middleware('can:is_admin')->group(function (){
+    Route::get('/', [AdminController::class, 'index'])->name('index')->withTrashed();
 });
 
 Route::prefix('/posts')->name('posts.')->middleware('auth')->group(function (){
@@ -91,7 +75,11 @@ Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function 
 });
 
 Route::prefix('/categories')->name('categories.')->middleware('auth')->group(function (){
-
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    //Route::get('/{category}', [CategoryController::class, 'show'])->name('show');
+    Route::get('/{category}', [CategoryController::class, 'edit'])->name('edit');
+    Route::patch('/{category}', [CategoryController::class, 'update'])->name('update');
+    Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
 });
 
 Route::prefix('/posts/{post}/comments')->name('comments.')->middleware('auth')->group(function(){

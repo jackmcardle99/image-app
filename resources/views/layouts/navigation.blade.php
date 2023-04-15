@@ -21,6 +21,11 @@
                     <x-nav-link :href="route('trashed.index')" :active="request()->routeIs('trashed.index')">
                         <p class="dark:text-slate-100">{{ __('Trash') }}</p>
                     </x-nav-link>
+                    @can('is_admin')
+                    <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                        <p class="dark:text-slate-100">{{ __('Admin Panel') }}</p>
+                    </x-nav-link>
+                    @endcan
 
                     <button @click="darkMode = !darkMode">
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -90,6 +95,11 @@
             <x-responsive-nav-link :href="route('trashed.index')" :active="request()->routeIs('trashed')">
                 {{ __('Trash') }}
             </x-responsive-nav-link>
+            @can('is_admin')
+            <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin')">
+                {{ __('Admin Panel') }}
+            </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

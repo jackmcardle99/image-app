@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -33,7 +35,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        if(Gate::allows('is_admin')){
+            return view('categories.create');
+        }
+        else {
+            return to_route('categories.index')->withErrors('Cannot create category - Not Admin');
+        }
     }
 
     /**
@@ -42,20 +49,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|unique:posts|max:30',
-            'summary' => 'required|max:250',
-            'image_filename' => 'image|required',
-            'value' => 'required'
+            'topic' => 'required|unique:categories|max:30',
         ]);
-
-
-        $category = Auth::user()->categories()->create([
-            'topic'=>$request->topic,
-        ]);
-
-
-
-        return to_route('categories.index', $category)->with('success','Category created successfully.');
+        $input = $request->all();
+        Category::create($input);
+        return to_route('categories.index')->with('success','Category created successfully.');
     }
 
     /**
@@ -69,24 +67,46 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return view('categories.edit')->with('category',$category);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'topic' => 'required|unique:categories|max:30' . $category->id
+
+        ]);
+        $category->update([
+            'topic'=>$request->topic,
+        ]);
+
+        $category->update();
+
+        if(Gate::allows('is_admin')){
+            return to_route('categories.index', $category)->with('success','Category updated successfully.');
+        }
+        else{
+            return to_route('categories.index')->withErrors('Category not updated - Not Admin');
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        if (Gate::allows('is_admin')) {
+            $category->delete();
+            return to_route('categories.index')->with('success', 'Category deleted');
+        }
+        else {
+            return to_route('categories.index')->withErrors('Category not deleted - Not Admin');
+        }
     }
 }

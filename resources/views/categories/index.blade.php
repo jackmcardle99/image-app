@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
+    <div class="py-12">
         <div class="flex-auto flex space-x-4 justify-center">
             @can('is_admin') {{-- Gate permission to only allow admin to create category --}}
             @if(request()->routeIs('categories.index'))
@@ -21,6 +21,39 @@
             @endcan
     </div>
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            @if ($errors->any())
+                <div class="flashmessage alert bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                    Something went Wrong...
+                </div>
+                <ul class="flashmessage alert border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 mb-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+            @if (session('success'))
+                <div
+                    class="flashmessage alert flex flex-row items-center bg-green-200 p-5 rounded border-b-2 border-green-300 py-5 mb-4 mt-5 ">
+                    <div
+                        class="alert-icon flex items-center bg-green-100 border-2 border-green-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                <span class="text-green-500">
+                <svg fill="currentColor" viewBox="0 0 20 20" class="h-6 w-6">
+                <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"></path>
+                </svg>
+                </span>
+                    </div>
+                    <div class="alert-content ml-4">
+                        <div class="alert-title font-semibold text-lg text-green-800">
+                            {{ __('Success') }}
+                        </div>
+                        <div class="alert-description text-sm text-green-600">
+                            {{ session('success') }}
+                        </div>
+                    </div>
+                </div>
+            @endif
             @forelse($categories as $category)
             <div class="dark:bg-gray-800 my-6 p-6 bg-white border-b border-gray-200 dark:border-gray-700 shadow-sm rounded-md sm:rounded-lg">
                 <h2 class="font-bold text-2xl dark:text-slate-300">
@@ -37,7 +70,32 @@
                         <span>No posts under this category.</span>
                     @endforelse
                 </p>
-                <br>
+
+                @can('is_admin')
+                    <div class="flex inline-flex">
+                        <form action="{{route('categories.edit',$category)}}" method="post" class="ml-auto mt-5 mr-5">
+                            @method('get')
+                            @csrf
+                            <button class=" inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600
+                             border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150">Edit
+                            </button>
+                        </form>
+                        <form action="{{route('categories.destroy',$category)}}" method="post" class="mt-5 mx-auto">
+                            @method('delete')
+                            @csrf
+                            <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
+                                    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-600
+                                    active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                                    disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
+                                     ' to trash, are you sure you would like to perform this action?')">Delete
+                            </button>
+                        </form>
+                    </div>
+
+                @endcan
             </div>
             @empty
                 <div class=" my-6 p-6 mt-6">
