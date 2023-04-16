@@ -10,12 +10,9 @@
             @can('is_admin') {{-- Gate permission to only allow admin to create category --}}
             @if(request()->routeIs('categories.index'))
                 <a href="{{route('categories.create')}}" class="btn-link">
-                    <button class="mt-6 inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-800 hover:bg-gray-700
-                            border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">+ Create Category
-                    </button>
+                    <x-primary-button >+ Create Category
+                    </x-primary-button>
+
                 </a>
             @endif
             @endcan
@@ -76,22 +73,16 @@
                         <form action="{{route('categories.edit',$category)}}" method="post" class="ml-auto mt-5 mr-5">
                             @method('get')
                             @csrf
-                            <button class=" inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600
-                             border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Edit
-                            </button>
+                            <x-primary-button>Edit
+                            </x-primary-button>
+
                         </form>
                         <form action="{{route('categories.destroy',$category)}}" method="post" class="mt-5 mx-auto">
                             @method('delete')
                             @csrf
-                            <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
-                                    rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-600
-                                    active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                                    disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
+                            <x-danger-button onclick="return confirm('Post will be moved' +
                                      ' to trash, are you sure you would like to perform this action?')">Delete
-                            </button>
+                            </x-danger-button>
                         </form>
                     </div>
 

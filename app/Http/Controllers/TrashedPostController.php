@@ -68,7 +68,7 @@ class TrashedPostController extends Controller
         $post->categories()->detach();
         $post->comments()->delete();
         $post->forceDelete();
-        return to_route('posts.index')->with('success','Permanently deleted successfully');
+        return to_route('trashed.index')->with('success','Permanently deleted successfully');
     }
 
 

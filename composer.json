@@ -16,6 +16,7 @@
         "laravel/scout": "^10.0",
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8",
+        "laravel/ui": "^4.2",
         "meilisearch/meilisearch-php": "^1.1"
     },
     "require-dev": {

@@ -127,23 +127,17 @@
                             <form action="{{route('posts.edit',$post)}}" method="post" class="ml-auto mr-5">
                                 @method('get')
                                 @csrf
-                                <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Edit
-                                </button>
+                                <x-primary-button>Edit
+                                </x-primary-button>
                             </form>
                         </th>
                         <th>
                             <form action="{{route('posts.destroy',$post)}}" method="post" class="">
                                 @method('delete')
                                 @csrf
-                                <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
+                                <x-danger-button onclick="return confirm('Post will be moved' +
                              ' to trash, are you sure you would like to perform this action?')">Delete
-                                </button>
+                                </x-danger-button>
                             </form>
                         </th>
 
@@ -203,12 +197,9 @@
                                 <form action="{{route('comments.destroy',$post)}}" method="post" class="">
                                     @method('delete')
                                     @csrf
-                                    <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
+                                    <x-danger-button onclick="return confirm('Post will be moved' +
                              ' to trash, are you sure you would like to perform this action?')">Delete
-                                    </button>
+                                    </x-danger-button>
                                 </form>
                             </th>
 

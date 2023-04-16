@@ -26,7 +26,6 @@ class CategoryController extends Controller
                 return Category::with('posts')->count();
             }
         );
-
         return view('categories.index', compact('categories','count'));
     }
 
@@ -35,12 +34,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        if(Gate::allows('is_admin')){
-            return view('categories.create');
+        if(!Gate::allows('is_admin')){
+            abort(403);
         }
-        else {
-            return to_route('categories.index')->withErrors('Cannot create category - Not Admin');
-        }
+        return view('categories.create');
     }
 
     /**
@@ -48,6 +45,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Gate::allows('is_admin')){
+            abort(403);
+        }
         $request->validate([
             'topic' => 'required|unique:categories|max:30',
         ]);
@@ -59,16 +59,15 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Category $category)
     {
+        if(!Gate::allows('is_admin')){
+            abort(403);
+        }
         return view('categories.edit')->with('category',$category);
     }
 
@@ -77,8 +76,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if(!Gate::allows('is_admin')){
+            abort(403);
+        }
         $request->validate([
-            'topic' => 'required|unique:categories|max:30' . $category->id
+            'topic' => 'required|max:30' . $category->id
 
         ]);
         $category->update([
@@ -87,13 +89,7 @@ class CategoryController extends Controller
 
         $category->update();
 
-        if(Gate::allows('is_admin')){
-            return to_route('categories.index', $category)->with('success','Category updated successfully.');
-        }
-        else{
-            return to_route('categories.index')->withErrors('Category not updated - Not Admin');
-        }
-
+        return to_route('categories.index', $category)->with('success','Category updated successfully.');
     }
 
     /**
@@ -101,12 +97,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if (Gate::allows('is_admin')) {
-            $category->delete();
-            return to_route('categories.index')->with('success', 'Category deleted');
+        if(!Gate::allows('is_admin')){
+            abort(403);
         }
-        else {
-            return to_route('categories.index')->withErrors('Category not deleted - Not Admin');
-        }
+        $category->delete();
+        return to_route('categories.index')->with('success', 'Category deleted');
     }
 }

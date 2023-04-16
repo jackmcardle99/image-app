@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex">
                 <a href="{{ route('trashed.index') }}">
-                    <svg class="h-7 " viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                    <svg class="h-7 mt-0.5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
@@ -27,29 +27,22 @@
                 <p class="dark:text-slate-200 opacity-70 sm:px-6 py-1">
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
-                @if(Auth::user()->id == $post->user_id)
+                @can('is_post_owner',$post)
                 <form action="{{route('trashed.update',$post)}}" method="post" class="ml-auto mr-5">
                     @method('put')
                     @csrf
-                    <button class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Restore
-                    </button>
+                    <x-save-button>Restore</x-save-button>
                 </form>
 
-                <form action="{{route('trashed.destroy',$post)}}" method="post" class="">
+                <form action="{{route('trashed.destroy',$post)}}" method="post">
                     @method('delete')
                     @csrf
-                    <button class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be' +
+                    <x-danger-button onclick="return confirm('Post will be' +
                              ' permanently destroyed. Are you sure you would like to perform this action?')">Destroy
-                    </button>
-                    {{--                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you would like to delete this post?')">Delete</button>--}}
+                    </x-danger-button>
+
                 </form>
-                @endif
+                @endcan
             </div>
             <div class="my-6 p-6 bg-white border-b border-gray-200 dark:border-gray-700 shadow-sm sm:rounded-lg dark:bg-gray-800">
                 <div class="flex">

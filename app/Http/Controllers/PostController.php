@@ -111,6 +111,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        // no gate here, all users can view post, except guest, but they can't view this
+        // because they are not auth
         $users = User::all();
         $comments = $post->comments()->latest('created_at')->paginate(5);
         $post->visit()->customInterval(now()->addSeconds(30))->withIP()->withUser(); // for post visits
@@ -164,15 +166,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //this code allows admin to delete post, despite not owning it
+        // this code gives forbidden 403 error to anyone trying to access post who isn't Auth or admin
+        if(!$post->user->is(Auth::user()) && !Gate::allows('is_admin')){
+            return abort(403);
+        }
+        //this code allows admin to delete post, returning to admin view
         if(Gate::allows('is_admin')){
             $post->delete();
             return to_route('admin.index')->with('success', 'Post deleted successfully');
-        }
-
-        // this code gives forbidden 403 error to anyone trying to access post who isnt Auth
-        if(!$post->user->is(Auth::user())){
-            return abort(403);
         }
 
         $post->delete();

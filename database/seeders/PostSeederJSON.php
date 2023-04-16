@@ -45,7 +45,7 @@ class PostSeederJSON extends Seeder
              * Generate Thumbnail Image to thumbnail Storage Folder
              */
             $destinationPathThumbnail = storage_path('app/public/uploads/thumbnails/');
-            $image->resize(300, 225, function ($constraint) {
+            $image->resize(1000, 750, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $image->save($destinationPathThumbnail.$originalFileName);
