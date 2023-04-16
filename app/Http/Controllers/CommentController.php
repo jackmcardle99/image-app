@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
@@ -17,7 +16,7 @@ class CommentController extends Controller
     {
         $comments = Comment::where('post_id',$post->id)->orderBy('created_at','desc')
             ->with('post')
-            ->paginate(10);
+            ->paginate(5);
         return view('comments.index',compact('comments','post'));
     }
 
@@ -78,6 +77,10 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        // only admin can destroy comments
+        if(!Gate::allows('is_admin')){
+            abort(403);
+        }
         $comment->delete();
     }
 }

@@ -42,7 +42,7 @@
             @endif
             <div class="flex">
                 <a href="{{ route('posts.index') }}">
-                    <svg class="h-7 " viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                    <svg class="h-7 mt-0.5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
@@ -73,7 +73,7 @@
 {{--                    </button>--}}
 {{--                </form>--}}
 
-                @can('is_owner', $post)
+                @can('is_post_owner', $post)
                 <form action="{{route('posts.edit',$post)}}" method="post" class="ml-auto mr-5">
                     @method('get')
                     @csrf
@@ -86,12 +86,9 @@
                 <form action="{{route('posts.destroy',$post)}}" method="post" class="">
                     @method('delete')
                     @csrf
-                    <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
+                    <x-danger-button onclick="return confirm('Post will be moved' +
                              ' to trash, are you sure you would like to perform this action?')">Delete
-                    </button>
+                    </x-danger-button>
                 </form>
                 @endcan
 
@@ -104,7 +101,7 @@
                 </div>
                 <p class="dark:text-slate-400 mt-6 whitespace-pre-wrap">{!! ($post->summary) !!}</p>
                 <div class="mt-3">
-                    <img src="{{url('storage/uploads/'.$post->image_filename)}}" alt="image url: {{$post->image_filename}}" ">
+                    <img src="{{url('storage/uploads/'.$post->image_filename)}}" alt="File name: {{$post->image_filename}}">
                 </div>
                 <br>
 

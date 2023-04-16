@@ -10,11 +10,10 @@
             <div class="overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <form action="{{url('/search')}}" method="GET" class="space-y-2 mb-6">
-                            <select name="user_id" id="user_id">
+                            <select name="user_id" id="user_id" class="mb-5">
                                 <option value="">Any user</option>
                                 @foreach($users as $user)
                                     <option value="{{$user->id}}" {{request()->get('user_id') == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>
-
                                 @endforeach
                             </select>
                             <input
@@ -24,10 +23,7 @@
                                 placeholder="Search posts..."
                                 class="block w-full"
                                 value="{{request()->get('query')}}">
-                            <button class="mt-6 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Search</button>
+                            <x-primary-button>Search</x-primary-button>
                         </form>
 
                         @if($results)

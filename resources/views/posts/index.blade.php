@@ -26,27 +26,18 @@
         <div class=" flex-auto flex space-x-4 justify-center">
             @if(request()->routeIs('posts.index'))
                 <a href="{{route('posts.create')}}" class="btn-link">
-                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            dark:bg-gray-700 dark:hover:bg-[#141a1c]
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">+ Create Post
-                    </button>
+                    <x-primary-button>+ Create Post</x-primary-button>
                 </a>
             @endif
 
                 <a href="{{url('/search')}}">
-                <button class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-700 dark:hover:bg-[#141a1c] border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Search
-                </button>
+                <x-primary-button>Search</x-primary-button>
                 </a>
     </div>
         {{-- THIS IS THE PROBLEM WITH PADDING--}}
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             {{$posts->links()}}
-            <br>
+
             <div class="mt-16 ">
             <div class="grid md:grid-cols-3 sm:grid-cols-1 gap-4">
             @forelse($posts as $post)
@@ -75,8 +66,8 @@
                         <div
                             class="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
                         >
-                            <p class="text-sm text-white">
-                                {!! html_entity_decode(Str::limit($post->summary, 40)) !!}
+                            <p class="text-sm dark:text-slate-200 text-white">
+                                {!! (Str::limit($post->summary, 40)) !!}
                             </p>
                             <p class="text-pink-500 block mt-4 text-sm">Views: {{$post->visit_count_total}}</p>
                             <p class="text-pink-500 block  text-sm">Updated: {{$post->updated_at->diffForHumans()}}</p>

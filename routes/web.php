@@ -12,6 +12,7 @@ use App\Http\Controllers\TrashedPostController;
 use App\Mail\SendPostMail;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -30,9 +31,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Route::get('/', PriorityViewController::class);
 
-Route::get('posts', function () {
+Route::get('/posts', function () {
     return view('posts.index');
 })->middleware(['auth', 'verified'])->name('posts');
 
@@ -103,7 +106,7 @@ Route::middleware('auth')->group(function () { // with this route, only admins c
 });
 
 Route::get('/search', SearchController::class);
-//Route::post('/post/email', ShareEmailController::class);
+
 
 
 

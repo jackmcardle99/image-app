@@ -1,4 +1,4 @@
-<nav x-data="switchTheme() { open: false }" class="dark:bg-[#141a1c] bg-white border-b border-gray-100 dark:border-slate-600">
+<nav x-data="{ open: false }" class="dark:bg-[#141a1c] bg-white border-b border-gray-100 dark:border-slate-600">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -26,19 +26,18 @@
                         <p class="dark:text-slate-100">{{ __('Admin Panel') }}</p>
                     </x-nav-link>
                     @endcan
-
-                    <button @click="darkMode = !darkMode">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-6 h-6 p-1 text-gray-100 transition bg-gray-700 rounded-full cursor-pointer dark:hover:bg-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                        </svg>
-                        <span class="sr-only">light</span>
-                    </button>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6 dark:bg-[#141a1c]">
+                <button @click="darkMode = !darkMode" class="mr-3 mt-1">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-6 h-6 p-1 text-gray-100 transition bg-gray-700 rounded-full cursor-pointer dark:hover:bg-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                    </svg>
+                    <span class="sr-only">light</span>
+                </button>
                 <x-dropdown align="right" width="48" class="dark:bg-[#141a1c] ">
                     <x-slot name="trigger" class="dark:bg-[#141a1c]">
                         <button class="dark:bg-[#141a1c] inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -72,7 +71,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden dark:bg-[#141a1c]">
+            <div class="mr-2 flex items-center sm:hidden dark:bg-[#141a1c]">
                 <button @click="open = ! open" class="dark:bg-[#141a1c] inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -84,8 +83,8 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden  dark:bg-[#141a1c] ">
-        <div class="pt-2 pb-3 space-y-1 ">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden  dark:bg-[#141a1c]">
+        <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
@@ -100,6 +99,13 @@
                 {{ __('Admin Panel') }}
             </x-responsive-nav-link>
             @endcan
+            <button @click="darkMode = !darkMode" class="ml-3">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-6 h-6 p-1 text-gray-100 transition bg-gray-700 rounded-full cursor-pointer dark:hover:bg-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+                <span class="sr-only">light</span>
+            </button>
         </div>
 
         <!-- Responsive Settings Options -->
