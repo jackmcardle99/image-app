@@ -64,3 +64,97 @@ $(document).ready(function(){
 });
 
 
+// function getTableData(table) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+//             // Handle the response data here
+//             var responseData = xhr.responseText;
+//             document.getElementById('table-container').innerHTML = responseData;
+//         }
+//     };
+//     xhr.open('GET', '/admin/' + table);
+//     xhr.send();
+// }
+
+// function getTableData(table) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState === XMLHttpRequest.DONE) {
+//             if (xhr.status === 200) {
+//                 // Handle the response data here
+//                 var responseData = JSON.parse(xhr.responseText);
+//                 document.getElementById('table-container').innerHTML = responseData.tableHtml;
+//             } else {
+//                 console.error('Error retrieving table data');
+//             }
+//         }
+//     };
+//     xhr.open('GET', '/admin/' + table);
+//     xhr.send();
+// }
+//
+// document.getElementById('table-select').addEventListener('change', function(event) {
+//     event.preventDefault();
+//     var selectedTable = this.value;
+//     if (selectedTable) {
+//         getTableData(selectedTable);
+//     }
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Add an event listener to the form submit button
+// document.getElementById('table-select').addEventListener('change', function(event) {
+//     event.preventDefault(); // Prevent the form from submitting normally
+//     var formData = new FormData(document.getElementById('table-form'));
+//
+//     // Send an Ajax request to update the table content
+//     axios.post('/admin', formData)
+//         .then(function(response) {
+//             // Update the table content with the data received from the server
+//             document.getElementById('table-content').innerHTML = response.data;
+//         })
+//         .catch(function(error) {
+//             console.log(error);
+//         });
+// });
+
+//Variables for each table
+
+// event listener to the form select input
+document.getElementById('table-form').addEventListener('change', function(event) {
+    event.preventDefault();
+    const postsTable = document.getElementById('postsTable');
+    const commentsTable = document.getElementById('commentsTable');
+    const usersTable = document.getElementById('usersTable');
+
+    // const postsTable = 'postsTable'
+    //
+    postsTable.style.display = 'none';
+    commentsTable.style.display = 'none';
+    //usersTable.style.display = 'none';
+
+
+    var e = document.getElementById("table-select");
+    var selectedEquipmentDropdown = e.options[e.selectedIndex].value; //change it here
+    var selectedTableId = selectedEquipmentDropdown + 'Table';
+    var selectedTable = document.getElementById(selectedTableId);
+    selectedTable.style.display = 'table';
+});
+
+
+
+
+

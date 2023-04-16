@@ -149,13 +149,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($data as $item)
-                        <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>{{ $item->title }}</td>
-                            <td>{{ $item->content }}</td>
-                        </tr>
-                    @endforeach
+                    @if($comments)
+                        @foreach($comments as $comment)
+                            <tr>
+                                <td>{{ $comment->id }}</td>
+                                <td>{{ $comment->body }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    @else
+                        @foreach($posts as $post)
+                            <tr>
+                                <td>{{ $post->id }}</td>
+                                <td>{{ $post->title }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
         </div>

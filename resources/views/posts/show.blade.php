@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __($post->title) }}
+{{--            {{ __($post->title) }}--}}
         </h2>
     </x-slot>
 
@@ -72,7 +72,8 @@
 {{--                            disabled:opacity-25 transition ease-in-out duration-150">Comments--}}
 {{--                    </button>--}}
 {{--                </form>--}}
-                @if(Auth::user()->id == $post->user_id)
+
+                @can('is_owner', $post)
                 <form action="{{route('posts.edit',$post)}}" method="post" class="ml-auto mr-5">
                     @method('get')
                     @csrf
@@ -91,9 +92,8 @@
                             disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
                              ' to trash, are you sure you would like to perform this action?')">Delete
                     </button>
-                    {{--                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you would like to delete this post?')">Delete</button>--}}
                 </form>
-                @endif
+                @endcan
 
             </div>
 

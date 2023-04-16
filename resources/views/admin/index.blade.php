@@ -35,9 +35,20 @@
                     </div>
                 </div>
             @endif
+                <form action="#" method="GET" class="space-y-2 mb-6" id="table-form">
+                    @csrf
+                    @method('GET')
+                    <
+                    <select id="table-select" onchange="">
+                        <option value="">Choose Table</option>
+                        <option value="posts">Posts</option>
+                        <option value="comments">Comments</option>
+                        <option value="users">Users</option>
+                    </select>
+                </form>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <div class="relative overflow-x-auto">
+                <table style="display: none" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="postsTable">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3 ">
@@ -137,6 +148,71 @@
                         </th>
 
                     </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <table style="display: none" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="commentsTable">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 ">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Post ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            User ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Body
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Created At
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Updated At
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Remove
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($comments as $comment)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$comment->id}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$comment->post_id}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$comment->user_id}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$comment->body}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$post->created_at}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$post->updated_at}}
+                            </th>
+                            <th>
+                                <form action="{{route('comments.destroy',$post)}}" method="post" class="">
+                                    @method('delete')
+                                    @csrf
+                                    <button class=" inline-flex items-center px-4 py-2 bg-red-800 border border-transparent
+                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
+                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
+                            disabled:opacity-25 transition ease-in-out duration-150" onclick="confirm('Post will be moved' +
+                             ' to trash, are you sure you would like to perform this action?')">Delete
+                                    </button>
+                                </form>
+                            </th>
+
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>

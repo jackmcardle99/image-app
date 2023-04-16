@@ -49,7 +49,11 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('/admin')->name('admin.')->middleware('can:is_admin')->group(function (){
     Route::get('/', [AdminController::class, 'index'])->name('index')->withTrashed();
+    Route::get('/{table}', [AdminController::class, 'update'])->name('admin.update');
+
+
 });
+
 
 Route::prefix('/posts')->name('posts.')->middleware('auth')->group(function (){
     Route::get('/', [PostController::class, 'index'])->name('index');

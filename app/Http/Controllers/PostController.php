@@ -26,14 +26,29 @@ class PostController extends Controller
      */
     public function index()
     {
-        //show all posts
+        // If the admin is viewing index, show all posts, published or not,
+        // belonging to all users
+        if(Gate::allows('is_admin')){
+            $posts = Post::latest('updated_at')
+                ->withTotalVisitCount()
+                ->paginate(6);
+            $count = Cache::remember(
+                'count.posts.',
+                now()->addSeconds(60),
+                function () use ($posts){
+                    return Post::count();
+                }
+            );
+            return view('posts.index',['posts'=>$posts, 'count' =>$count]);
+        }
+
+        //show all posts belonging to user
         $userID = Auth::id();
         $posts = Post::where('user_id', $userID)
         ->where('is_published',true)
         ->latest('updated_at')
         ->withTotalVisitCount()
         ->paginate(6);
-
         $count = Cache::remember(
             'count.posts.' . $userID,
             now()->addSeconds(60),
