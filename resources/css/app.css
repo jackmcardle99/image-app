@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.icon-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 30px;
+    color: #333333;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+}
+
+.icon-button__badge {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    /* width: 25px; */
+    height: 25px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline:white;
+    border-radius: 10% 10%;
+    box-shadow:0 0 5px #333;
+}
+
+.posts {
+        background: orange;
+    }

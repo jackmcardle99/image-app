@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DraftController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriorityViewController;
@@ -24,11 +25,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Controls the view of images on the landign page
 Route::get('/', PriorityViewController::class);
 
+//Controls the draft view for unpublished posts
+Route::get('/posts/drafts', DraftController::class);
 
-
-
+// Returns index upon authentication
 Route::get('/posts', function () {
     return view('index');
 })->middleware(['auth', 'verified'])->name('posts');
@@ -42,6 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/posts', PostController::class);
     Route::resource('/categories', CategoryController::class);
     Route::resource('/admin', AdminController::class);
+
     //Route::get('/admin',[AdminController::class])->name('admin.index');
 });
 
@@ -49,10 +54,9 @@ Route::prefix('/admin')->name('admin.')->middleware('can:is_admin')->group(funct
     Route::get('/', [AdminController::class, 'index'])->name('index')->withTrashed();
     Route::get('/{table}', [AdminController::class, 'update'])->name('admin.update');
 
-
 });
 
-
+//Route::prefix('/posts/drafts')->name()
 
 Route::prefix('/posts')->name('posts.')->middleware(['auth','verified'])->group(function (){
     Route::get('/', [PostController::class, 'index'])->name('index');
@@ -60,6 +64,8 @@ Route::prefix('/posts')->name('posts.')->middleware(['auth','verified'])->group(
     //Route::get('/{post}', [PostController::class, 'edit'])->name('edit')->withTrashed();
     Route::patch('/{post}', [PostController::class, 'update'])->name('update')->withTrashed();
     Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy')->withTrashed();
+//    Route::get('/drafts', DraftController::class);
+//    Route::get('/drafts/{post}', DraftController::class)->name('drafts');
 
     //Route::post('/{post}/share', [ShareEmailController::class, 'share'])->name('posts.share');
 });

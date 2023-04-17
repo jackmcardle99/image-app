@@ -29,9 +29,7 @@ class PostController extends Controller
         // If the admin is viewing index, show all posts, published or not,
         // belonging to all users
         if(Gate::allows('is_admin')){
-            $posts = Post::latest('updated_at')
-                ->withTotalVisitCount()
-                ->paginate(6);
+            $posts = Post::withTotalVisitCount()->paginate(6);
             $count = Cache::remember(
                 'count.posts.',
                 now()->addSeconds(60),

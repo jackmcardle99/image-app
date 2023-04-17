@@ -33,6 +33,9 @@
                 <a href="{{url('/search')}}">
                 <x-primary-button>Search</x-primary-button>
                 </a>
+                <a href="{{url('/posts/drafts')}}">
+                    <x-primary-button>Drafts</x-primary-button>
+                </a>
     </div>
         {{-- THIS IS THE PROBLEM WITH PADDING--}}
         <div class="max-w-7xl mx-auto px-6 lg:px-8">

@@ -10,21 +10,16 @@
             <div class="overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <form action="{{url('/search')}}" method="GET" class="space-y-2 mb-6">
-                            <select name="user_id" id="user_id" class="mb-5">
-                                <option value="">Any user</option>
-                                @foreach($users as $user)
-                                    <option value="{{$user->id}}" {{request()->get('user_id') == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>
-                                @endforeach
-                            </select>
-                            <input
-                                id="query"
-                                name="query"
-                                type="search"
-                                placeholder="Search posts..."
-                                class="block w-full"
-                                value="{{request()->get('query')}}">
-                            <x-primary-button>Search</x-primary-button>
-                        </form>
+                        <select name="user_id" id="user_id" class="mb-5">
+                            <option value="">Any user</option>
+                            @foreach($users as $user)
+                                <option value="{{$user->id}}" {{request()->get('user_id') == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>
+                            @endforeach
+                        </select>
+                        <x-input-label>Search posts</x-input-label>
+                        <x-text-input name="query" id="query" type="search" class="block w-full" value="{{request()->get('query')}}"> </x-text-input>
+                        <x-primary-button>Search</x-primary-button>
+                    </form>
 
                         @if($results)
                         {{$results->links()}}

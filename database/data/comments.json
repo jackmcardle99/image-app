@@ -1,58 +1,338 @@
 [
-    {
-        "id": 1,
-        "post_id": 1,
-        "user_id": 3,
-        "body": "Cool photo!",
-        "created_at": "2023-04-02 14:44:47",
-        "updated_at": "2023-04-02 14:44:47"
-    },
-    {
-        "id": 2,
-        "post_id": 1,
-        "user_id": 4,
-        "body": "Awesome photo, reminds me of work!",
-        "created_at": "2023-04-02 14:44:47",
-        "updated_at": "2023-04-02 14:44:47"
-    },
-    {
-        "id": 3,
-        "post_id": 1,
-        "user_id": 5,
-        "body": "When did you take this?",
-        "created_at": "2023-04-02 14:44:47",
-        "updated_at": "2023-04-02 14:44:47"
-    },
-    {
-        "id": 4,
-        "post_id": 1,
-        "user_id": 6,
-        "body": "Which campus is this?",
-        "created_at": "2023-04-02 14:44:47",
-        "updated_at": "2023-04-02 14:44:47"
-    },
-    {
-        "id": 5,
-        "post_id": 1,
-        "user_id": 7,
-        "body": "What camera did you take this photo with?",
-        "created_at": "2023-04-02 14:44:47",
-        "updated_at": "2023-04-02 14:44:47"
-    },
-    {
-        "id": 6,
-        "post_id": 1,
-        "user_id": 7,
-        "body": "I remember being at this campus!!",
-        "created_at": "2023-04-02 14:45:47",
-        "updated_at": "2023-04-02 14:44:47"
-    },
-    {
-        "id": 7,
-        "post_id": 2,
-        "user_id": 4,
-        "body": "Good quality photo, wish i could capture photos like this 📸",
-        "created_at": "2023-04-02 14:44:47",
-        "updated_at": "2023-04-02 14:44:47"
-    }
+  {
+    "id": 1,
+    "post_id": 1,
+    "user_id": 3,
+    "body": "Cool photo!",
+    "created_at": "2023-04-02 14:44:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 2,
+    "post_id": 1,
+    "user_id": 4,
+    "body": "Awesome photo, reminds me of work!",
+    "created_at": "2023-04-02 14:44:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 3,
+    "post_id": 1,
+    "user_id": 5,
+    "body": "When did you take this?",
+    "created_at": "2023-04-02 14:44:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 4,
+    "post_id": 1,
+    "user_id": 6,
+    "body": "Which campus is this?",
+    "created_at": "2023-04-02 14:44:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 5,
+    "post_id": 1,
+    "user_id": 3,
+    "body": "What camera did you take this photo with?",
+    "created_at": "2023-04-02 14:44:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 6,
+    "post_id": 1,
+    "user_id": 5,
+    "body": "I remember being at this campus!!",
+    "created_at": "2023-04-02 14:45:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 7,
+    "post_id": 8,
+    "user_id": 3,
+    "body": "The colors in this photo are so cool! Did you edit them or is that natural lighting?",
+    "created_at": "2023-04-02 14:44:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 8,
+    "post_id": 19,
+    "user_id": 7,
+    "body": "Beautiful treeline",
+    "created_at": "2023-04-02 14:44:47",
+    "updated_at": "2023-04-02 14:44:47"
+  },
+  {
+    "id": 9,
+    "post_id": 13,
+    "user_id": 3,
+    "body": "Nice dog",
+    "created_at": "2023-04-17 21:59:47",
+    "updated_at": "2023-04-17 21:59:47"
+  },
+  {
+    "id": 10,
+    "post_id": 13,
+    "user_id": 6,
+    "body": "Does your dog always pose for the camera like this?",
+    "created_at": "2023-04-17 22:00:04",
+    "updated_at": "2023-04-17 22:00:04"
+  },
+  {
+    "id": 11,
+    "post_id": 12,
+    "user_id": 4,
+    "body": "What's his name?",
+    "created_at": "2023-04-17 22:00:25",
+    "updated_at": "2023-04-17 22:00:25"
+  },
+  {
+    "id": 12,
+    "post_id": 16,
+    "user_id": 2,
+    "body": "The colors in this photo are so cool! Did you edit them or is that natural lighting?",
+    "created_at": "2023-04-17 22:00:52",
+    "updated_at": "2023-04-17 22:00:52"
+  },
+  {
+    "id": 13,
+    "post_id": 17,
+    "user_id": 3,
+    "body": "Awesome photo, did you take it yourself?",
+    "created_at": "2023-04-17 22:01:03",
+    "updated_at": "2023-04-17 22:01:03"
+  },
+  {
+    "id": 14,
+    "post_id": 16,
+    "user_id": 6,
+    "body": "Aw, what a cute dog!",
+    "created_at": "2023-04-17 22:01:18",
+    "updated_at": "2023-04-17 22:01:18"
+  },
+  {
+    "id": 15,
+    "post_id": 17,
+    "user_id": 4,
+    "body": "Greece looks amazing, I've always wanted to visit!",
+    "created_at": "2023-04-17 22:01:40",
+    "updated_at": "2023-04-17 22:01:40"
+  },
+  {
+    "id": 16,
+    "post_id": 9,
+    "user_id": 7,
+    "body": "This photo is so cool, where is it?",
+    "created_at": "2023-04-17 22:02:10",
+    "updated_at": "2023-04-17 22:02:10"
+  },
+  {
+    "id": 17,
+    "post_id": 14,
+    "user_id": 7,
+    "body": "Love the vibe in these pictures!",
+    "created_at": "2023-04-17 22:02:20",
+    "updated_at": "2023-04-17 22:02:20"
+  },
+  {
+    "id": 18,
+    "post_id": 14,
+    "user_id": 3,
+    "body": "This photo is making me want to book a trip right now",
+    "created_at": "2023-04-17 22:02:26",
+    "updated_at": "2023-04-17 22:02:26"
+  },
+  {
+    "id": 19,
+    "post_id": 8,
+    "user_id": 4,
+    "body": "It's making me nostalgic for my college days.",
+    "created_at": "2023-04-17 22:02:47",
+    "updated_at": "2023-04-17 22:02:47"
+  },
+  {
+    "id": 20,
+    "post_id": 6,
+    "user_id": 6,
+    "body": "I wish I could go back to college again",
+    "created_at": "2023-04-17 22:02:55",
+    "updated_at": "2023-04-17 22:02:55"
+  },
+  {
+    "id": 21,
+    "post_id": 3,
+    "user_id": 4,
+    "body": "It's bringing back so many memories from my own uni days!!",
+    "created_at": "2023-04-17 22:03:09",
+    "updated_at": "2023-04-17 22:03:09"
+  },
+  {
+    "id": 22,
+    "post_id": 3,
+    "user_id": 7,
+    "body": "Good quality photo, wish i could capture photos like this 📸",
+    "created_at": "2023-04-17 22:03:46",
+    "updated_at": "2023-04-17 22:03:46"
+  },
+  {
+    "id": 23,
+    "post_id": 18,
+    "user_id": 7,
+    "body": "These photos of the train station at night look so cool!",
+    "created_at": "2023-04-17 22:04:31",
+    "updated_at": "2023-04-17 22:04:31"
+  },
+  {
+    "id": 24,
+    "post_id": 12,
+    "user_id": 6,
+    "body": "I never knew I needed a cat in my life until now",
+    "created_at": "2023-04-17 22:04:58",
+    "updated_at": "2023-04-17 22:04:58"
+  },
+  {
+    "id": 25,
+    "post_id": 12,
+    "user_id": 2,
+    "body": "The way the cat is posing is just too much!!",
+    "created_at": "2023-04-17 22:05:12",
+    "updated_at": "2023-04-17 22:05:12"
+  },
+  {
+    "id": 26,
+    "post_id": 15,
+    "user_id": 3,
+    "body": "This is so beautiful I need to plan a trip there soon",
+    "created_at": "2023-04-17 22:05:25",
+    "updated_at": "2023-04-17 22:05:25"
+  },
+  {
+    "id": 27,
+    "post_id": 16,
+    "user_id": 4,
+    "body": "This doggo looks so cozy in his own bed",
+    "created_at": "2023-04-17 22:05:39",
+    "updated_at": "2023-04-17 22:05:39"
+  },
+  {
+    "id": 28,
+    "post_id": 13,
+    "user_id": 3,
+    "body": "Distracting you from your work I see",
+    "created_at": "2023-04-17 22:05:52",
+    "updated_at": "2023-04-17 22:05:52"
+  },
+  {
+    "id": 29,
+    "post_id": 16,
+    "user_id": 7,
+    "body": "This dog looks like he's living his best life in that comfy bed!!",
+    "created_at": "2023-04-17 22:06:05",
+    "updated_at": "2023-04-17 22:06:05"
+  },
+  {
+    "id": 30,
+    "post_id": 9,
+    "user_id": 4,
+    "body": "I can't stop staring at this photo",
+    "created_at": "2023-04-17 22:06:54",
+    "updated_at": "2023-04-17 22:06:54"
+  },
+  {
+    "id": 31,
+    "post_id": 16,
+    "user_id": 3,
+    "body": "The red light in this picture adds such a cool element to the shot",
+    "created_at": "2023-04-17 22:07:04",
+    "updated_at": "2023-04-17 22:07:04"
+  },
+  {
+    "id": 32,
+    "post_id": 14,
+    "user_id": 2,
+    "body": "Looks like the perfect spot to chill and relax",
+    "created_at": "2023-04-17 22:07:14",
+    "updated_at": "2023-04-17 22:07:14"
+  },
+  {
+    "id": 33,
+    "post_id": 14,
+    "user_id": 3,
+    "body": "These palm trees look like they're straight out of a postcard",
+    "created_at": "2023-04-17 22:07:26",
+    "updated_at": "2023-04-17 22:07:26"
+  },
+  {
+    "id": 34,
+    "post_id": 14,
+    "user_id": 5,
+    "body": "Need to go there!",
+    "created_at": "2023-04-17 22:07:32",
+    "updated_at": "2023-04-17 22:07:32"
+  },
+  {
+    "id": 35,
+    "post_id": 2,
+    "user_id": 4,
+    "body": "Nice area",
+    "created_at": "2023-04-17 22:11:33",
+    "updated_at": "2023-04-17 22:11:33"
+  },
+  {
+    "id": 36,
+    "post_id": 11,
+    "user_id": 2,
+    "body": "Beautiful area",
+    "created_at": "2023-04-17 22:11:57",
+    "updated_at": "2023-04-17 22:11:57"
+  },
+  {
+    "id": 37,
+    "post_id": 10,
+    "user_id": 5,
+    "body": "I plan to take a trip there soon, ancient place",
+    "created_at": "2023-04-17 22:12:11",
+    "updated_at": "2023-04-17 22:12:11"
+  },
+  {
+    "id": 38,
+    "post_id": 9,
+    "user_id": 7,
+    "body": "Athens is a great city",
+    "created_at": "2023-04-17 22:12:25",
+    "updated_at": "2023-04-17 22:12:25"
+  },
+  {
+    "id": 39,
+    "post_id": 18,
+    "user_id": 4,
+    "body": "Love belfast",
+    "created_at": "2023-04-17 22:14:12",
+    "updated_at": "2023-04-17 22:14:12"
+  },
+  {
+    "id": 40,
+    "post_id": 16,
+    "user_id": 2,
+    "body": "Typical dogs",
+    "created_at": "2023-04-17 22:14:27",
+    "updated_at": "2023-04-17 22:14:27"
+  },
+  {
+    "id": 41,
+    "post_id": 7,
+    "user_id": 6,
+    "body": "Is this where president Biden gave his speech?",
+    "created_at": "2023-04-17 22:15:18",
+    "updated_at": "2023-04-17 22:15:18"
+  },
+  {
+    "id": 42,
+    "post_id": 5,
+    "user_id": 6,
+    "body": "Nice cathedral",
+    "created_at": "2023-04-17 22:15:36",
+    "updated_at": "2023-04-17 22:15:36"
+  }
 ]

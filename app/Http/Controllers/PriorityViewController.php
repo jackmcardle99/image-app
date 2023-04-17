@@ -13,10 +13,9 @@ class PriorityViewController extends Controller
         DebugBar::info('Showing the message!');
         $total_visits_to_home_page = Redis::incr('visits_to_home_page');
         $posts = Post::where([
-            ['value','>=',100],['is_published',true]
+            ['value','>',200],['is_published',true]
         ])
         ->limit(4)
-        ->latest('updated_at')
         ->withTotalVisitCount()
         ->get();
 

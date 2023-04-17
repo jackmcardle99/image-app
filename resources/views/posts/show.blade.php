@@ -74,14 +74,10 @@
 {{--                </form>--}}
 
                 @can('is_post_owner', $post)
-                <form action="{{route('posts.edit',$post)}}" method="post" class="ml-auto mr-5">
+                <form action="{{route('posts.edit',$post)}}" method="post" class=" ml-auto mr-5">
                     @method('get')
                     @csrf
-                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent
-                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700
-                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300
-                            disabled:opacity-25 transition ease-in-out duration-150">Edit
-                    </button>
+                    <x-primary-button>Edit</x-primary-button>
                 </form>
                 <form action="{{route('posts.destroy',$post)}}" method="post" class="">
                     @method('delete')
@@ -124,7 +120,7 @@
             @csrf
             <div class="flex justify-center">
                     <textarea
-                        class="dark:bg-gray-800 dark:text-slate-200 min-h-[100px] md:w-1/4 w-3/4 resize-none rounded-[7px] border border-blue-gray-200
+                        class=" dark:bg-gray-800 dark:text-slate-200 min-h-[100px] md:w-1/4 w-3/4 resize-none rounded-[7px] border border-blue-gray-200
                          bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0
                          transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200
                          placeholder-shown:border-t-blue-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none

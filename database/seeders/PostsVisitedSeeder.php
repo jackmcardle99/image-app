@@ -16,7 +16,7 @@ class PostsVisitedSeeder extends Seeder
     {
         $users = User::all();
         $posts = Post::inRandomOrder()
-            ->limit(rand(6,15))
+//            ->limit(rand(6,15))
             ->get();
 
         foreach($posts as $post){

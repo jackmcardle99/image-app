@@ -1,10 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Categories') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="flex-auto flex space-x-4 justify-center">
             @can('is_admin') {{-- Gate permission to only allow admin to create category --}}

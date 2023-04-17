@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Coderflex\Laravisit\Concerns\HasVisits;
 use Coderflex\Laravisit\Concerns\CanVisit;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,6 +18,7 @@ class Post extends Model implements CanVisit
     use SoftDeletes; //for trash feature
     use HasVisits; // for views
     use Searchable; //for meillisearch
+    use Sluggable;
 
 
     protected $fillable =[
@@ -66,11 +68,21 @@ class Post extends Model implements CanVisit
         });
     }
     //this code changes the url
-//    public function getRouteKeyName(): string
-//    {
-//        return 'title';
-//    }
 
+
+      public function sluggable(): array
+      {
+          // TODO: Implement sluggable() method.
+          return [
+              'slug' => ['title'
+              ]
+          ];
+      }
+
+        public function getRouteKeyName(): string
+        {
+            return 'slug';
+        }
 
 
 }

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Post;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -25,6 +26,7 @@ class PostSeederJSON extends Seeder
             Post::create([
                 "user_id"=>$value->user_id,
                 "title"=>$value->title,
+                "slug"=>SlugService::createSlug(Post::class, 'slug', $value->title),
                 "summary"=>$value->summary,
                 "image_filename"=>$value->image_filename,
                 "is_published"=>$value->is_published,
