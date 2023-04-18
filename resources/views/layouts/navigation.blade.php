@@ -31,13 +31,59 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6 dark:bg-[#141a1c]">
-                <button @click="darkMode = !darkMode" class="mr-3 mt-1">
+{{--                <x-primary-button id="dark-mode-toggle" onclick="toggleDarkMode()">Enable Dark Mode</x-primary-button>--}}
+                <button type="submit" onclick="toggleDarkMode()" class="mr-3 mt-1" id="dark-mode-toggle">
                     <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 p-1 text-gray-100 transition bg-gray-700 rounded-full cursor-pointer dark:hover:bg-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                         class="w-6 h-6 p-1 text-gray-100 transition bg-gray-700 rounded-full cursor-pointer dark:hover:bg-gray-600"
+                         viewBox="0 0 20 20" fill="currentColor">
                         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                     </svg>
-                    <span class="sr-only">light</span>
+                    <span class="sr-only">Toggle dark mode</span>
                 </button>
+
+                <script>
+                    // function to toggle the dark mode
+                    function toggleDarkMode() {
+                        const htmlEl = document.documentElement;
+                        htmlEl.classList.toggle('dark');
+                        const darkModeEnabled = htmlEl.classList.contains('dark');
+                        setDarkModeCookie(darkModeEnabled);
+                    }
+
+                    // function to set the dark mode cookie
+                    function setDarkModeCookie(darkModeEnabled) {
+                        const d = new Date();
+                        d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000)); // Cookie expires after 1 year
+                        const expires = "expires="+ d.toUTCString();
+                        document.cookie = "dark_mode_enabled=" + darkModeEnabled + ";" + expires + ";path=/";
+                    }
+
+                    // function to get the dark mode cookie
+                    function getDarkModeCookie() {
+                        const name = "dark_mode_enabled=";
+                        const decodedCookie = decodeURIComponent(document.cookie);
+                        const cookies = decodedCookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            let cookie = cookies[i];
+                            while (cookie.charAt(0) == ' ') {
+                                cookie = cookie.substring(1);
+                            }
+                            if (cookie.indexOf(name) == 0) {
+                                return cookie.substring(name.length, cookie.length) === "true";
+                            }
+                        }
+                        return false;
+                    }
+
+                    // set the initial dark mode state based on the cookie
+                    const darkModeEnabled = getDarkModeCookie();
+                    if (darkModeEnabled) {
+                        document.documentElement.classList.add("dark");
+                    } else {
+                        document.documentElement.classList.remove("dark");
+                    }
+                </script>
+
                 <x-dropdown align="right" width="48" class="dark:bg-[#141a1c] ">
                     <x-slot name="trigger" class="dark:bg-[#141a1c]">
                         <button class="dark:bg-[#141a1c] inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">

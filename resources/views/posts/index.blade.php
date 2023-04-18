@@ -45,6 +45,7 @@
             <div class="grid md:grid-cols-3 sm:grid-cols-1 gap-4">
             @forelse($posts as $post)
             <a href="{{route('posts.show',$post)}}" class="group relative block bg-black rounded-lg">
+
                 <img
                     src="{{url('storage/uploads/thumbnails/'.$post->image_filename)}}"
                     class="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50 rounded-lg"
@@ -66,14 +67,18 @@
                     <p class="text-xl font-bold text-white sm:text-2xl">{{$post->title}}</p>
 
                     <div class="mt-32 sm:mt-48 lg:mt-64">
-                        <div
-                            class="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
-                        >
+                        <div class="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
                             <p class="text-sm dark:text-slate-200 text-white">
                                 {!! (Str::limit($post->summary, 40)) !!}
                             </p>
                             <p class="text-pink-500 block mt-4 text-sm">Views: {{$post->visit_count_total}}</p>
                             <p class="text-pink-500 block  text-sm">Updated: {{$post->updated_at->diffForHumans()}}</p>
+                            <p class="text-pink-500 block text-sm">Categories:
+                                @forelse($post->categories as $category)
+                                    {{$category->topic}}@if (!$loop->last),@endif
+                                @empty
+                                    <span>No categories defined for this note.</span>
+                                @endforelse</p>
                         </div>
                     </div>
                 </div>

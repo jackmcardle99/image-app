@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriorityViewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TrashedPostController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,55 +27,50 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Controls the view of images on the landign page
-Route::get('/', PriorityViewController::class);
-
-//Controls the draft view for unpublished posts
-Route::get('/posts/drafts', DraftController::class);
-
 // Returns index upon authentication
 Route::get('/posts', function () {
     return view('index');
 })->middleware(['auth', 'verified'])->name('posts');
 
+    /*  ------- INVOKABLE CONTROLLERS       */
+// Controls the view of images on the landign page
+Route::get('/', PriorityViewController::class);
 
+// Controls the search action
+Route::get('/search', SearchController::class);
+
+// Controls the draft view for unpublished posts
+Route::get('/posts/drafts', DraftController::class);
+
+    /*----------------------------------- */
+
+Route::resource('/posts', PostController::class);
+Route::resource('/categories', CategoryController::class);
+Route::resource('/admin', AdminController::class);
+//Route::delete('/admin', [CommentController::class, 'destroy'])->name('destroy');
+
+ // Only authenticated and email verified users can go here
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::resource('/posts', PostController::class);
-    Route::resource('/categories', CategoryController::class);
-    Route::resource('/admin', AdminController::class);
-
-    //Route::get('/admin',[AdminController::class])->name('admin.index');
 });
 
 Route::prefix('/admin')->name('admin.')->middleware('can:is_admin')->group(function (){
     Route::get('/', [AdminController::class, 'index'])->name('index')->withTrashed();
-    Route::get('/{table}', [AdminController::class, 'update'])->name('admin.update');
-
 });
-
-//Route::prefix('/posts/drafts')->name()
 
 Route::prefix('/posts')->name('posts.')->middleware(['auth','verified'])->group(function (){
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('/{post}', [PostController::class, 'show'])->name('show')->withTrashed();
-    //Route::get('/{post}', [PostController::class, 'edit'])->name('edit')->withTrashed();
     Route::patch('/{post}', [PostController::class, 'update'])->name('update')->withTrashed();
     Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy')->withTrashed();
-//    Route::get('/drafts', DraftController::class);
-//    Route::get('/drafts/{post}', DraftController::class)->name('drafts');
-
-    //Route::post('/{post}/share', [ShareEmailController::class, 'share'])->name('posts.share');
 });
 
-//Route::prefix('/posts')->name('posts.')->middleware('can:is_admin')->group(function (){
-//    Route::get('/{post}', [PostController::class, 'show'])->name('show')->withTrashed();
-//});
-
-
+Route::prefix('/posts/{post}/comments')->name('comments.')->middleware('auth')->group(function(){
+    Route::post('/', [CommentController::class, 'store'])->name('store');
+    Route::delete('/', [CommentController::class, 'destroy'])->name('destroy');
+});
 
 Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function (){
     Route::get('/', [TrashedPostController::class, 'index'])->name('index');
@@ -85,31 +81,17 @@ Route::prefix('/trashed')->name('trashed.')->middleware('auth')->group(function 
 
 Route::prefix('/categories')->name('categories.')->middleware('auth')->group(function (){
     Route::get('/', [CategoryController::class, 'index'])->name('index');
-    //Route::get('/{category}', [CategoryController::class, 'show'])->name('show');
-    Route::get('/{category}', [CategoryController::class, 'edit'])->name('edit');
     Route::patch('/{category}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
 });
 
-Route::prefix('/posts/{post}/comments')->name('comments.')->middleware('auth')->group(function(){
-    Route::get('/', [CommentController::class, 'index'])->name('index');
-    //Route::get('/{post}', [CommentController::class, 'show'])->name('show');
-    Route::post('/', [CommentController::class, 'store'])->name('store');
-   // Route::put('/{post}', [CommentController::class, 'update'])->name('update');
-    //Route::post('/{post}', [CommentController::class, 'store'])->name('store');
-    Route::delete('/', [CommentController::class, 'destroy'])->name('destroy');
-//    Route::post('/{post}', ShareEmailController::class)->name('share');
-});
-
-
-Route::middleware('auth')->group(function () { // with this route, only admins can access
-    Route::resource('/categories', CategoryController::class);
-    //Route::resource('/posts', PostController::class);
-});
-
-Route::get('/search', SearchController::class);
-
-
-
+Route::post('/dark-mode', function (Request $request) {
+    $darkMode = $request->input('dark-mode');
+    if ($darkMode === 'on') {
+        return response('Dark mode enabled')->cookie('dark-mode', 'on', 60*24*7);
+    } else {
+        return response('Dark mode disabled')->cookie('dark-mode', 'off', 60*24*7);
+    }
+})->name('dark-mode');
 
 require __DIR__.'/auth.php';

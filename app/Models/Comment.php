@@ -30,8 +30,9 @@ class Comment extends Model
         parent::boot();
 
         static::deleting(function ($comment){
-            $comment->posts()->detach();
+            $comment->post()->dissociate();
+            $comment->user()->dissociate();
         });
-    }
+}
 
 }

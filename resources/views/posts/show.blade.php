@@ -1,10 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-{{--            {{ __($post->title) }}--}}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             @if ($errors->any())
@@ -152,6 +146,15 @@
                         </div>
                     </footer>
                     <p class="text-gray-700 dark:text-gray-400 break-all">{{$comment->body}}</p>
+                    @can('is_admin')
+                    <form action="{{route('comments.destroy',$comment)}}" method="post">
+                        @method('delete')
+                        @csrf
+                        <x-danger-button onclick="return confirm('Comment will be permanently deleted,' +
+                                     ' are you sure you would like to perform this action?')">Delete
+                        </x-danger-button>
+                    </form>
+                    @endcan
                 </article>
             </div>
             @empty

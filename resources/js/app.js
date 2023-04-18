@@ -32,8 +32,3 @@ document.getElementById('table-form').addEventListener('change', function(event)
     var selectedTable = document.getElementById(selectedTableId);
     selectedTable.style.display = 'table';
 });
-
-
-
-
-

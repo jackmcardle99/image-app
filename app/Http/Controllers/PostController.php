@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -15,13 +16,7 @@ use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
-
-    public function __construct(){
-//        $this->middleware('auth')->only(['create','edit','update','destroy']);
-//        $this->middleware('can:is_admin')->only(['create','edit','update','destroy']);
-    }
-
-    /**
+        /**
      * Display a listing of the resource.
      */
     public function index()
@@ -80,27 +75,24 @@ class PostController extends Controller
 
         $post = Auth::user()->posts()->create([
             'title'=>$request->title,
+            'slug'=>SlugService::createSlug(Post::class, 'slug', $request->title),
             'summary'=>$request->summary,
             'image_filename'=>$this->storeImage($request),
             'is_published'=>$request->is_published === 'on' ?  '1' : '0',
             'value'=>$request->value,
         ]);
+       // $categoryID = Category::where('topic',$request->topic);
 
-//        DB::table('category_post')->insert([
-//            ['category_id'=>1, 'post_id'=>],
-//        ]);
-
-
-//        if ($request->has('image_filename')){
-//            $post->image_filename = $this->storeImage($request);
-//        }
-//        if ($request->has('is_published')){
-//            $post->is_published = 1;
-//        }
-//        else{
-//            $post->is_published = 0;
-//        }
-
+        if(!$request->select_category == null){
+            foreach($request->select_category as $selected) {
+                DB::table('category_post')
+                    ->insert(
+                        [
+                            ['category_id'=>$selected, 'post_id'=>$post->id],
+                        ]
+                    );
+            }
+        }
         return to_route('posts.index', $post)->with('success','Post created successfully.');
     }
 
@@ -125,12 +117,14 @@ class PostController extends Controller
         if(!$post->user->is(Auth::user()) && !Gate::allows('is_admin')){
             return abort(403);
         }
-        return view('posts.edit')->with('post',$post);
+        $categories = Category::all();
+        return view('posts.edit', compact('post','categories'));
     }
 
     public function update(Request $request, Post $post){
         $request->validate([
             'title' => 'required|max:255|unique:posts,title,' . $post->id,
+            'slug'=>SlugService::createSlug(Post::class, 'slug', $request->title),
             'summary' => 'required',
             'image_path' => 'nullable|sometimes|image',
             'value' => 'required'
@@ -146,6 +140,19 @@ class PostController extends Controller
         }
         if ($request->has('is_published')){
             $post->is_published = 1;
+        }
+        if(!$request->select_category == null){
+            foreach($request->select_category as $selected) {
+
+
+                //started writing this code need to validate it so duplicate entries are not added to category_post pivot table
+                DB::table('category_post')->insert(
+                    [
+                        ['category_id'=>$selected, 'post_id'=>$post->id],
+                    ]
+                );
+
+            }
         }
         else{
             $post->is_published = 0;

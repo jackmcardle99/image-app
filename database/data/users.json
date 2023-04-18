@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "name": "admin",
+    "email": "admin@image-app.com",
+    "role": "admin",
+    "email_verified_at": "2023-04-17 23:51:24",
+    "password": "$2y$10$g6zPIVqhwAlyxnHNPXQFHeUCqkY8vZ/I8HJsrKRp/9QdMe7nYxfsa",
+    "remember_token": null,
+    "created_at": "2023-04-17 23:51:24",
+    "updated_at": "2023-04-17 23:51:24"
+  },
+  {
+    "id": 2,
+    "name": "Jack McArdle",
+    "email": "McArdle-J9@ulster.ac.uk",
+    "role": "user",
+    "email_verified_at": "2023-04-17 23:51:24",
+    "password": "$2y$10$aOhffuYxqDHrKmS/cqPXpOt0ndd1dxSirKiAYCD1hVnEGoa/rKw9m",
+    "remember_token": null,
+    "created_at": "2023-04-17 23:51:24",
+    "updated_at": "2023-04-17 23:51:24"
+  },
+  {
+    "id": 3,
+    "name": "Sarah Coleman",
+    "email": "sa.c@example.net",
+    "role": "user",
+    "email_verified_at": "2023-04-17 23:51:24",
+    "password": "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "remember_token": "7duk0kkpiZ",
+    "created_at": "2023-04-17 23:51:24",
+    "updated_at": "2023-04-17 23:51:24"
+  },
+  {
+    "id": 4,
+    "name": "Gaetano D'Amore",
+    "email": "yweimann@example.org",
+    "role": "user",
+    "email_verified_at": "2023-04-17 23:51:24",
+    "password": "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "remember_token": "BYCrFXUkj8",
+    "created_at": "2023-04-17 23:51:24",
+    "updated_at": "2023-04-17 23:51:24"
+  },
+  {
+    "id": 5,
+    "name": "Damion Friesen",
+    "email": "elza.hegmann@example.net",
+    "role": "user",
+    "email_verified_at": "2023-04-17 23:51:24",
+    "password": "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "remember_token": "qF0iWTprum",
+    "created_at": "2023-04-17 23:51:24",
+    "updated_at": "2023-04-17 23:51:24"
+  },
+  {
+    "id": 6,
+    "name": "Una Kub I",
+    "email": "mlang@example.org",
+    "role": "user",
+    "email_verified_at": "2023-04-17 23:51:24",
+    "password": "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "remember_token": "X38KZnHX0i",
+    "created_at": "2023-04-17 23:51:24",
+    "updated_at": "2023-04-17 23:51:24"
+  },
+  {
+    "id": 7,
+    "name": "Alya Roosevelt",
+    "email": "alya.roosevelt@example.net",
+    "role": "user",
+    "email_verified_at": "2023-04-17 23:51:24",
+    "password": "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "remember_token": "DB8X4tCwCc",
+    "created_at": "2023-04-17 23:51:24",
+    "updated_at": "2023-04-17 23:51:24"
+  }
+]

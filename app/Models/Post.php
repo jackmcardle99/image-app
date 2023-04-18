@@ -8,17 +8,16 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
 
 class Post extends Model implements CanVisit
 {
-    use HasFactory;
+    use HasFactory;  // for seeding
     use SoftDeletes; //for trash feature
     use HasVisits; // for views
     use Searchable; //for meillisearch
-    use Sluggable;
+    use Sluggable; // for custom slugs
 
 
     protected $fillable =[
@@ -67,15 +66,13 @@ class Post extends Model implements CanVisit
 //            $post->comments()->detach();
         });
     }
-    //this code changes the url
-
 
       public function sluggable(): array
       {
-          // TODO: Implement sluggable() method.
+
           return [
-              'slug' => ['title'
-              ]
+              'slug' => ['source' => 'title']
+
           ];
       }
 

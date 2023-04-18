@@ -21,18 +21,13 @@ class CommentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-      return view('comments.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        if(!Gate::allows('is_admin') && !Gate::allows('is_user')){
+            abort(403)->with('error', "You're not a registered user.");
+        }
         //dump($request->post_id);
         $request->validate([
             'body'=>'required|max:255',
@@ -49,38 +44,15 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy($comment)
     {
         // only admin can destroy comments
         if(!Gate::allows('is_admin')){
             abort(403);
         }
-        $comment->delete();
+        Comment::destroy($comment);
+        return to_route('admin.index')->with('success', 'Comment deleted successfully');
     }
 }

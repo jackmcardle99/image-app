@@ -188,17 +188,17 @@
                                 {{$comment->body}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$post->created_at}}
+                                {{$comment->created_at}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$post->updated_at}}
+                                {{$comment->updated_at}}
                             </th>
                             <th>
-                                <form action="{{route('comments.destroy',$post)}}" method="post" class="">
+                                <form action="{{route('comments.destroy', $comment)}}" method="post">
                                     @method('delete')
                                     @csrf
-                                    <x-danger-button onclick="return confirm('Post will be moved' +
-                             ' to trash, are you sure you would like to perform this action?')">Delete
+                                    <x-danger-button onclick="return confirm('Comment will be permanently deleted,' +
+                                     ' are you sure you would like to perform this action?')">Delete
                                     </x-danger-button>
                                 </form>
                             </th>

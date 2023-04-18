@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $this->call([
-            UserSeeder::class, // seeding users
+//            UserSeeder::class, // seeding users
+            UserSeederJSON::class,
             UserSeederUpdateRole::class,
             CategorySeederJSON::class, // seeding categories
             PostSeederJSON::class, // seeding posts
