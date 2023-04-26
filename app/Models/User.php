@@ -50,12 +50,4 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments(){ //for defining relationship in db
         return $this->hasMany(Comment::class);
     }
-
-//    public static function boot(){
-//        parent::boot();
-//
-//        static::deleting(function ($comment){
-//            $comment->user()->detach();
-//        });
-//    }
 }

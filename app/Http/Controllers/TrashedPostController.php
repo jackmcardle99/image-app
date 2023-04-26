@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -15,18 +14,17 @@ class TrashedPostController extends Controller
         $posts = Post::where([
             ['user_id', $userID]
         ])
+        ->with('user') // eager loading
         ->latest('updated_at')
-        ->onlyTrashed()
+        ->onlyTrashed()  // only show trashed posts
         ->withTotalVisitCount()
-        ->paginate(5);
+        ->paginate(6);
 
         $count = Cache::remember(
             'count.trash.' . $userID,
             now()->addSeconds(60),
             function () use ($userID){
-                return Post::where([
-                    ['user_id', $userID]
-                ])
+                return Post::where([['user_id', $userID]])
                     ->onlyTrashed()
                     ->count();
             }
@@ -70,6 +68,4 @@ class TrashedPostController extends Controller
         $post->forceDelete();
         return to_route('trashed.index')->with('success','Permanently deleted successfully');
     }
-
-
 }

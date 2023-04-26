@@ -25,14 +25,4 @@ class Comment extends Model
     public function post(){
         return $this->belongsTo(Post::class);
     }
-
-    public static function boot(){
-        parent::boot();
-
-        static::deleting(function ($comment){
-            $comment->post()->dissociate();
-            $comment->user()->dissociate();
-        });
-}
-
 }

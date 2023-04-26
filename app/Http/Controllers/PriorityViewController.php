@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class PriorityViewController extends Controller
@@ -16,6 +15,7 @@ class PriorityViewController extends Controller
             ['value','>',200],['is_published',true]
         ])
         ->limit(4)
+        ->with('user') // eager loading
         ->withTotalVisitCount()
         ->get();
 

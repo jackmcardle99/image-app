@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Meilisearch\Http\Client;
 
 class SearchController extends Controller
 {

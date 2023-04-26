@@ -1,6 +1,12 @@
 <x-app-layout>
     <div class="py-12 dark:bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-slate-900 via-purple-900 to-slate-900">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            @if ($errors->any())
+                <x-alert>Something went Wrong...</x-alert>
+            @endif
+            @if (session('success'))
+                <x-success-alert></x-success-alert>
+            @endif
             <div class="flex">
                 <a href="{{ route('trashed.index') }}">
                     <svg class="h-7 mt-0.5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
@@ -13,6 +19,7 @@
                         </g>
                     </svg>
                 </a>
+
                 <p class="dark:text-slate-200 opacity-70 sm:px-6 py-1">
                     <strong>Author: </strong> {{ $post->user->name }}
                 </p>

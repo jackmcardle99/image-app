@@ -60,9 +60,9 @@ class AuthTest extends TestCase
 //        });
 //    }
 //
-//    public function test_user_table_has_three_users(){
-//        User::factory()->count(3)->create();
-//        $this->assertDatabaseCount('users',3);
+//    public function test_user_table_has_5_users(){
+//        User::factory()->count(5)->create();
+//        $this->assertDatabaseCount('users',5);
 //    }
 
     public function test_admin_has_been_found(){

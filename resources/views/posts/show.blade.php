@@ -2,37 +2,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             @if ($errors->any())
-                <div class="flashmessage alert bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                    Something went Wrong...
-                </div>
-                <ul class="flashmessage alert border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 mb-5">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+                <x-alert>Something went Wrong...</x-alert>
             @endif
             @if (session('success'))
-                <div
-                    class="flashmessage alert flex flex-row items-center bg-green-200 p-5 rounded border-b-2 border-green-300 py-5 mb-4">
-                    <div
-                        class="alert-icon flex items-center bg-green-100 border-2 border-green-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
-                <span class="text-green-500">
-                <svg fill="currentColor" viewBox="0 0 20 20" class="h-6 w-6">
-                <path fill-rule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd"></path>
-                </svg>
-                </span>
-                    </div>
-                    <div class="alert-content ml-4">
-                        <div class="alert-title font-semibold text-lg text-green-800">
-                            {{ __('Success') }}
-                        </div>
-                        <div class="alert-description text-sm text-green-600">
-                            {{ session('success') }}
-                        </div>
-                    </div>
-                </div>
+                <x-success-alert></x-success-alert>
             @endif
             <div class="flex">
                 <a href="{{ route('posts.index') }}">
@@ -55,17 +28,6 @@
                 <p class="dark:text-slate-200 opacity-70 sm:px-6 py-1">
                     <strong>Updated: </strong> {{$post->updated_at->diffForHumans()}}
                 </p>
-
-
-{{--                <form action="{{route('comments.index',$post->id)}}" method="post" class="ml-auto mr-5">--}}
-{{--                    @method('get')--}}
-{{--                    @csrf--}}
-{{--                    <button class=" inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent--}}
-{{--                            rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700--}}
-{{--                            active:text-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300--}}
-{{--                            disabled:opacity-25 transition ease-in-out duration-150">Comments--}}
-{{--                    </button>--}}
-{{--                </form>--}}
 
                 @can('is_post_owner', $post)
                 <form action="{{route('posts.edit',$post)}}" method="post" class=" ml-auto mr-5">
@@ -93,23 +55,12 @@
                 <div class="mt-3">
                     <img src="{{url('storage/uploads/'.$post->image_filename)}}" alt="File name: {{$post->image_filename}}">
                 </div>
-                <br>
 
-{{--                <form action="{{route('email', $post)}}" method="post">--}}
-{{--                    @csrf--}}
-{{--                    Send to: <select name="user" id="user">--}}
-{{--                        @foreach($users as $user)--}}
-{{--                            <option value="{{$user->id}}" {{Auth::id() == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                    <button type="submit">Send</button>--}}
-{{--                </form>--}}
             </div>
-
         </div>
 
                     {{--       ENTER COMMENT SECTION    --}}
-        <form  method="post" action="{{ route('comments.store',$post)}}">
+        <form  method="post" action="{{ route('comments.store')}}">
             @method('post')
             @csrf
             <div class="flex justify-center">
@@ -150,7 +101,7 @@
                     <form action="{{route('comments.destroy',$comment)}}" method="post">
                         @method('delete')
                         @csrf
-                        <x-danger-button onclick="return confirm('Comment will be permanently deleted,' +
+                        <x-danger-button class="mt-5" onclick="return confirm('Comment will be permanently deleted,' +
                                      ' are you sure you would like to perform this action?')">Delete
                         </x-danger-button>
                     </form>

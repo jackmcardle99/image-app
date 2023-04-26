@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Comment;
 use App\Models\Post;
-use App\Models\User;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 
@@ -24,12 +21,13 @@ class PostController extends Controller
         // If the admin is viewing index, show all posts, published or not,
         // belonging to all users
         if(Gate::allows('is_admin')){
-            $posts = Post::withTotalVisitCount()->paginate(6);
+            $posts = Post::with('user')->withTotalVisitCount()->paginate(6); // eager loading
             $count = Cache::remember(
                 'count.posts.',
                 now()->addSeconds(60),
                 function () use ($posts){
-                    return Post::count();
+                    return Post::where('is_published',true)
+                        ->count();
                 }
             );
             return view('posts.index',['posts'=>$posts, 'count' =>$count]);
@@ -38,15 +36,18 @@ class PostController extends Controller
         //show all posts belonging to user
         $userID = Auth::id();
         $posts = Post::where('user_id', $userID)
-        ->where('is_published',true)
-        ->latest('updated_at')
-        ->withTotalVisitCount()
-        ->paginate(6);
+            ->where('is_published',true)
+            ->with('user') // eager loading
+            ->latest('updated_at')
+            ->withTotalVisitCount()
+            ->paginate(6);
         $count = Cache::remember(
             'count.posts.' . $userID,
             now()->addSeconds(60),
             function () use ($posts){
-                return Post::count();
+                return Post::where('user_id',Auth::id())
+                    ->where('is_published',true)
+                    ->count();
             }
         );
         return view('posts.index',['posts'=>$posts, 'count' =>$count]);
@@ -70,7 +71,7 @@ class PostController extends Controller
             'title' => 'required|unique:posts|max:30',
             'summary' => 'required|max:250',
             'image_filename' => 'image|required|mimes:jpeg,png,jpg,gif',
-            'value' => 'required'
+            'value' => 'required|gt:0'
         ]);
 
         $post = Auth::user()->posts()->create([
@@ -81,18 +82,12 @@ class PostController extends Controller
             'is_published'=>$request->is_published === 'on' ?  '1' : '0',
             'value'=>$request->value,
         ]);
-       // $categoryID = Category::where('topic',$request->topic);
 
-        if(!$request->select_category == null){
-            foreach($request->select_category as $selected) {
-                DB::table('category_post')
-                    ->insert(
-                        [
-                            ['category_id'=>$selected, 'post_id'=>$post->id],
-                        ]
-                    );
-            }
-        }
+        // get the selected categories from the request
+        $selectedCategories = $request->input('select_category', []);
+        // attach the selected categories to the newly created post
+        $post->categories()->attach($selectedCategories);
+
         return to_route('posts.index', $post)->with('success','Post created successfully.');
     }
 
@@ -101,12 +96,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        // no gate here, all users can view post, except guest, but they can't view this
-        // because they are not auth
-        $users = User::all();
-        $comments = $post->comments()->latest('created_at')->paginate(5);
+        // no gate here, all users can view post, except guest, but they can't view this because they are not auth
+        $comments = $post->comments()->with('user')->latest()->paginate(5); // eager loading
         $post->visit()->customInterval(now()->addSeconds(30))->withIP()->withUser(); // for post visits
-        return view('posts.show', compact('post','comments','users'));
+        return view('posts.show',compact('post','comments'));
     }
 
     /**
@@ -127,7 +120,7 @@ class PostController extends Controller
             'slug'=>SlugService::createSlug(Post::class, 'slug', $request->title),
             'summary' => 'required',
             'image_path' => 'nullable|sometimes|image',
-            'value' => 'required'
+            'value' => 'required|gt:0'
         ]);
         $post->update([
             'title'=>$request->title,
@@ -142,17 +135,11 @@ class PostController extends Controller
             $post->is_published = 1;
         }
         if(!$request->select_category == null){
-            foreach($request->select_category as $selected) {
-
-
-                //started writing this code need to validate it so duplicate entries are not added to category_post pivot table
-                DB::table('category_post')->insert(
-                    [
-                        ['category_id'=>$selected, 'post_id'=>$post->id],
-                    ]
-                );
-
-            }
+            $selectedCategories = $request->input('select_category', []);
+            // Detach all existing categories to remove the associations
+            $post->categories()->detach();
+            // Attach the selected categories
+            $post->categories()->attach($selectedCategories);
         }
         else{
             $post->is_published = 0;
@@ -209,7 +196,4 @@ class PostController extends Controller
             return time().$dbName->getClientOriginalName();
         }
     }
-
-
-
 }

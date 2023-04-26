@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Comment;
-use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,11 +14,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('topic','asc')->with('posts')->get(); // with('posts') is eager loading
-
+       $categories = Category::orderBy('topic','asc')->with('posts')->get(); // with('posts') is eager loading
         $count = Cache::remember(
             'count.categories.' . $categories,
-            now()->addSeconds(120),
+            now()->addSeconds(60),
             function () use ($categories){
                 return Category::with('posts')->count();
             }
@@ -57,10 +53,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Category $category)
@@ -81,7 +73,6 @@ class CategoryController extends Controller
         }
         $request->validate([
             'topic' => 'required|max:30' . $category->id
-
         ]);
         $category->update([
             'topic'=>$request->topic,

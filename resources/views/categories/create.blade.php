@@ -9,30 +9,22 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="pb-8">
                 @if ($errors->any())
-                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                        Something went Wrong...
-                    </div>
-                    <ul class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                    <x-alert>Something went Wrong...</x-alert>
                 @endif
             </div>
-            <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
+            <div class="my-6 p-6 bg-white border-b dark:border-gray-600 border-gray-200 shadow-sm sm:rounded-lg dark:bg-slate-700">
                 <form action="{{route('categories.store')}}" method="post">
                     @csrf
-                    <input
-                    type="text"
-                    name="topic"
-                    field="topic"
-                    placeholder="Topic name"
-                    class="w-full"
-                    autocomplete="off"
-                    value="{{@old('topic')}}">
+
+                    <x-input-label class="font-semibold text-xl ml-1">Topic Name</x-input-label>
+                    <x-text-input name="topic"
+                            field="topic"
+                            class="w-full"
+                            autocomplete="off"
+                            value="{{@old('topic')}}"></x-input>
 
                     <br>
-                    <x-secondary-button class="mt-5">Create</x-secondary-button>
+                    <x-save-button class="mt-5">Create</x-save-button>
                 </form>
             </div>
         </div>

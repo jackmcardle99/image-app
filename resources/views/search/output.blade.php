@@ -4,7 +4,7 @@
             <div class="overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <form action="{{url('/search')}}" method="GET" class="space-y-2 mb-6">
-                        <select name="user_id" id="user_id" class="mb-5">
+                        <select name="user_id" id="user_id" class="rounded-lg dark:bg-gray-600 dark:text-slate-200 mb-5">
                             <option value="">Any user</option>
                             @foreach($users as $user)
                                 <option value="{{$user->id}}" {{request()->get('user_id') == $user->id ? 'selected=""': ''}}>{{$user->name}}</option>

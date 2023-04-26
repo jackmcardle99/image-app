@@ -31,8 +31,8 @@
             </div>
     @endif
 
-            <div class="max-w-7xl mx-auto p-6 lg:px-8">
-                <div class="flex justify-center">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex justify-center mt-20">
                     <x-application-logo-large></x-application-logo-large>
                 </div>
                 <div class="flex justify-center mt-10">
@@ -49,6 +49,7 @@
                         />
 
                         <div class="relative p-4 sm:p-6 lg:p-8">
+
                             <div class="flex inline-flex">
                                 <p class="text-sm font-semibold uppercase tracking-widest text-pink-500">
                                     {{$post->user->name}}
@@ -61,7 +62,7 @@
                             </div>
 
 
-                            <p class="text-xl font-bold text-white sm:text-2xl">{{$post->title}}</p>
+                            <p class="text-xl  font-bold text-white sm:text-2xl">{{$post->title}}</p>
 
                             <div class="mt-32 sm:mt-48 lg:mt-64">
                                 <div

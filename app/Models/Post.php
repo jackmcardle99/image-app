@@ -63,7 +63,6 @@ class Post extends Model implements CanVisit
 
         static::deleting(function ($post){
             $post->categories()->detach();
-//            $post->comments()->detach();
         });
     }
 
