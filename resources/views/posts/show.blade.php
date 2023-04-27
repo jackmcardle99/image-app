@@ -97,7 +97,7 @@
                         </div>
                     </footer>
                     <p class="text-gray-700 dark:text-gray-400 break-all">{{$comment->body}}</p>
-                    @can('is_admin')
+                    @can('is_admin=')
                     <form action="{{route('comments.destroy',$comment)}}" method="post">
                         @method('delete')
                         @csrf

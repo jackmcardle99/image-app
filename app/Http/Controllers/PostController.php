@@ -128,12 +128,6 @@ class PostController extends Controller
             'value'=>$request->value
         ]);
 
-        if ($request->has('image_filename')){
-            $post->image_filename = $this->storeImage($request);
-        }
-        if ($request->has('is_published')){
-            $post->is_published = 1;
-        }
         if(!$request->select_category == null){
             $selectedCategories = $request->input('select_category', []);
             // Detach all existing categories to remove the associations
@@ -141,9 +135,19 @@ class PostController extends Controller
             // Attach the selected categories
             $post->categories()->attach($selectedCategories);
         }
-        else{
+
+
+        if ($request->has('image_filename')){
+            $post->image_filename = $this->storeImage($request);
+        }
+        if ($request->has('is_published')){
+            $post->is_published = 1;
+        } else{
             $post->is_published = 0;
         }
+
+
+
 
         $post->update();
 
